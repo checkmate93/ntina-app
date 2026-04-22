@@ -32,96 +32,188 @@
             padding-bottom: 80px;
         }
 
+        /* ============ HEADER ============ */
         .header {
             background: linear-gradient(135deg, #f9c5b6 0%, #f7b5a5 40%, #f59e8b 100%);
-            padding: 20px 16px 28px;
+            padding: 18px 16px 22px;
             border-radius: 0 0 30px 30px;
             text-align: center;
             color: white;
             position: relative;
             box-shadow: 0 4px 20px rgba(245, 158, 139, 0.25);
         }
-        .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.3px; }
-        .header .baby-icon { font-size: 2.8rem; display: block; margin-bottom: 4px; }
-        .header .date-display { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; font-weight: 500; }
+        .header .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .header .baby-icon {
+            font-size: 2.4rem;
+        }
 
+        /* --- ΒΕΛΤΙΩΜΕΝΗ ΗΜΕΡΟΜΗΝΙΑ --- */
+        .date-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(4px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.2px;
+        }
+        .date-box .date-icon {
+            font-size: 1.4rem;
+        }
+        .date-box .date-text {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ============ TABS ============ */
         .tabs {
-            display: flex; gap: 6px; padding: 16px 12px;
-            overflow-x: auto; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; justify-content: center;
+            display: flex;
+            gap: 6px;
+            padding: 16px 12px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         .tabs::-webkit-scrollbar { display: none; }
         .tab-btn {
-            flex-shrink: 0; padding: 10px 18px;
-            border: 2px solid var(--border); border-radius: 50px;
-            background: var(--card); cursor: pointer;
-            font-size: 0.85rem; font-weight: 600; color: var(--text-light);
-            transition: all 0.25s; white-space: nowrap;
-            display: flex; align-items: center; gap: 6px;
+            flex-shrink: 0;
+            padding: 10px 16px;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--card);
+            cursor: pointer;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.25s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .tab-btn.active {
-            background: var(--primary); color: white;
+            background: var(--primary);
+            color: white;
             border-color: var(--primary);
             box-shadow: 0 4px 14px rgba(245, 158, 139, 0.35);
             transform: translateY(-1px);
         }
         .tab-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
         .tab-btn.active:hover { color: white; }
-        .tab-icon { font-size: 1.2rem; }
+        .tab-icon { font-size: 1.1rem; }
 
+        /* ============ CONTAINER ============ */
         .container { max-width: 520px; margin: 0 auto; padding: 0 12px; }
         .section { display: none; }
         .section.active { display: block; }
 
+        /* ============ CARD ============ */
         .card {
-            background: var(--card); border-radius: var(--radius);
-            padding: 18px 16px; margin-bottom: 12px;
-            box-shadow: var(--shadow); border: 1px solid var(--border);
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
             animation: popIn 0.3s ease-out;
         }
-        .card h2 { font-size: 1.1rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-        .card h2 .emoji { font-size: 1.4rem; }
+        .card h2 {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+        .card h2 .emoji { font-size: 1.3rem; }
 
+        /* ============ FORM ============ */
         .form-group { margin-bottom: 12px; }
         .form-group label {
-            display: block; font-size: 0.8rem; font-weight: 600;
-            color: var(--text-light); margin-bottom: 5px;
-            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .form-row { display: flex; gap: 10px; }
         .form-row > * { flex: 1; }
 
-        input, select {
-            width: 100%; padding: 11px 14px;
-            border: 2px solid var(--border); border-radius: var(--radius-sm);
-            font-size: 0.95rem; font-family: inherit;
-            background: #fefcfb; color: var(--text);
-            transition: border-color 0.2s; outline: none;
+        input[type="datetime-local"],
+        input[type="time"],
+        input[type="number"],
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fefcfb;
+            color: var(--text);
+            transition: border-color 0.2s;
+            outline: none;
         }
         input:focus, select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(245, 158, 139, 0.1);
         }
         select {
-            cursor: pointer; appearance: none; -webkit-appearance: none;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238b7e78'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 14px center;
+            background-repeat: no-repeat;
+            background-position: right 14px center;
             padding-right: 34px;
         }
 
+        /* ============ BUTTONS ============ */
         .btn {
-            padding: 11px 22px; border: none; border-radius: 50px;
-            cursor: pointer; font-size: 0.9rem; font-weight: 600;
-            font-family: inherit; transition: all 0.2s;
-            display: inline-flex; align-items: center; gap: 6px; justify-content: center;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
         }
         .btn-primary {
-            background: var(--primary); color: white; width: 100%;
-            padding: 13px; font-size: 0.95rem;
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 13px;
+            font-size: 0.95rem;
             box-shadow: 0 4px 12px rgba(245, 158, 139, 0.3);
         }
         .btn-primary:hover {
-            background: var(--primary-dark); transform: translateY(-1px);
+            background: var(--primary-dark);
+            transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(245, 158, 139, 0.4);
         }
         .btn-primary:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(245, 158, 139, 0.3); }
@@ -133,52 +225,114 @@
         .btn-cancel { background: #f0f0f0; color: #888; margin-top: 6px; }
         .btn-cancel:hover { background: #e4e4e4; }
 
+        /* ============ RECORDS LIST ============ */
         .records-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
         .record-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 14px; background: #fefcfb;
-            border-radius: var(--radius-sm); border: 1px solid var(--border);
-            gap: 10px; flex-wrap: wrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: #fefcfb;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .record-info { flex: 1; min-width: 140px; }
-        .record-info .record-main { font-weight: 600; font-size: 0.9rem; }
-        .record-info .record-sub { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+        .record-info .record-main { font-weight: 600; font-size: 0.88rem; }
+        .record-info .record-sub { font-size: 0.73rem; color: var(--text-light); margin-top: 2px; }
         .record-actions { display: flex; gap: 6px; }
         .record-badge {
-            display: inline-block; padding: 3px 10px; border-radius: 20px;
-            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .badge-left { background: #ffe0f0; color: #c06080; }
         .badge-right { background: #e0e8ff; color: #5070c0; }
         .badge-pee { background: #e0f0ff; color: #5088c0; }
         .badge-poop { background: #f0e8d8; color: #a08050; }
         .badge-sleep { background: #e0f0e8; color: #508060; }
+        .badge-feeding { background: #fde8e0; color: #c06850; }
 
+        /* ============ HISTORY DATE GROUP ============ */
+        .date-group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 6px;
+            margin-top: 4px;
+        }
+        .date-group-header:first-child { margin-top: 0; }
+        .date-group-header .dg-icon { font-size: 1.1rem; }
+
+        /* ============ EMPTY STATE ============ */
         .empty-state { text-align: center; padding: 32px 16px; color: var(--text-light); }
         .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 10px; opacity: 0.6; }
         .empty-state p { font-size: 0.9rem; }
 
+        /* ============ STATS ============ */
         .stats-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
         .stat-chip {
-            background: #fefcfb; border: 1px solid var(--border);
-            border-radius: 20px; padding: 8px 14px;
-            font-size: 0.78rem; font-weight: 600; color: var(--text);
-            display: flex; align-items: center; gap: 5px;
+            background: #fefcfb;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .stat-chip .stat-num { color: var(--primary-dark); font-size: 1rem; }
 
+        /* ============ EDIT FORM ============ */
         .edit-form {
-            background: #fffdf5; border: 2px dashed #f0d58c;
-            border-radius: var(--radius-sm); padding: 14px; margin-top: 8px;
+            background: #fffdf5;
+            border: 2px dashed #f0d58c;
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-top: 8px;
         }
+        .edit-form .form-group { margin-bottom: 8px; }
         .edit-actions { display: flex; gap: 8px; margin-top: 10px; }
 
+        /* ============ DATE FILTER IN HISTORY ============ */
+        .history-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .history-filter input[type="date"] {
+            flex: 1;
+            min-width: 140px;
+        }
+        .history-filter .btn-sm { flex-shrink: 0; }
+
+        /* ============ TOAST ============ */
         .toast {
-            position: fixed; bottom: 30px; left: 50%;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #4a3f3c; color: white;
-            padding: 12px 24px; border-radius: 50px;
-            font-size: 0.85rem; font-weight: 600; z-index: 999;
+            background: #4a3f3c;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 999;
             transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
         }
@@ -191,30 +345,40 @@
 
         @media (max-width: 400px) {
             .tabs { gap: 3px; padding: 12px 6px; }
-            .tab-btn { padding: 8px 12px; font-size: 0.75rem; }
+            .tab-btn { padding: 7px 11px; font-size: 0.73rem; }
             .record-item { padding: 10px; }
             .form-row { flex-direction: column; gap: 8px; }
+            .date-box { padding: 8px 16px; font-size: 0.88rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ============ HEADER ============ -->
     <div class="header">
-        <span class="baby-icon">👶</span>
-        <h1>Baby Tracker</h1>
-        <div class="date-display" id="dateDisplay"></div>
+        <div class="header-top">
+            <span class="baby-icon">👶</span>
+            <h1>Baby Tracker</h1>
+        </div>
+        <div class="date-box">
+            <span class="date-icon">📅</span>
+            <span class="date-text" id="dateDisplay"></span>
+        </div>
     </div>
 
+    <!-- ============ TABS ============ -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="feeding"><span class="tab-icon">🍼</span> Θηλασμός</button>
         <button class="tab-btn" data-tab="pee"><span class="tab-icon">💧</span> Τσίσα</button>
         <button class="tab-btn" data-tab="poop"><span class="tab-icon">💩</span> Κακά</button>
         <button class="tab-btn" data-tab="sleep"><span class="tab-icon">😴</span> Ύπνος</button>
+        <button class="tab-btn" data-tab="history"><span class="tab-icon">📋</span> Ιστορικό</button>
     </div>
 
+    <!-- ============ MAIN ============ -->
     <div class="container">
 
-        <!-- ====== ΘΗΛΑΣΜΟΣ ====== -->
+        <!-- ─── ΘΗΛΑΣΜΟΣ ─── -->
         <div class="section active" id="section-feeding">
             <div class="card">
                 <h2><span class="emoji">🍼</span> Καταγραφή Θηλασμού</h2>
@@ -246,7 +410,7 @@
             </div>
         </div>
 
-        <!-- ====== ΤΣΙΣΑ ====== -->
+        <!-- ─── ΤΣΙΣΑ ─── -->
         <div class="section" id="section-pee">
             <div class="card">
                 <h2><span class="emoji">💧</span> Καταγραφή Τσίσας</h2>
@@ -265,7 +429,7 @@
             </div>
         </div>
 
-        <!-- ====== ΚΑΚΑ ====== -->
+        <!-- ─── ΚΑΚΑ ─── -->
         <div class="section" id="section-poop">
             <div class="card">
                 <h2><span class="emoji">💩</span> Καταγραφή Κακά</h2>
@@ -284,7 +448,7 @@
             </div>
         </div>
 
-        <!-- ====== ΥΠΝΟΣ ====== -->
+        <!-- ─── ΥΠΝΟΣ ─── -->
         <div class="section" id="section-sleep">
             <div class="card">
                 <h2><span class="emoji">😴</span> Καταγραφή Ύπνου</h2>
@@ -309,13 +473,29 @@
             </div>
         </div>
 
+        <!-- ─── ΙΣΤΟΡΙΚΟ (ΝΕΑ ΚΑΡΤΕΛΑ) ─── -->
+        <div class="section" id="section-history">
+            <div class="card">
+                <h2><span class="emoji">📋</span> Πλήρες Ιστορικό</h2>
+                <div class="history-filter">
+                    <input type="date" id="historyDateFilter" title="Φίλτρο ημερομηνίας">
+                    <button class="btn btn-sm btn-primary" onclick="window._clearHistoryFilter()" style="background:#f0f0f0;color:#666;">✖ Καθαρισμός</button>
+                </div>
+                <div class="stats-bar" id="historyStats"></div>
+                <div id="historyList"></div>
+            </div>
+        </div>
+
     </div>
 
+    <!-- ============ TOAST ============ -->
     <div class="toast" id="toast"></div>
 
     <script>
         (function() {
-            // ── DOM Elements ──
+            // ═══════════════════════════════════════
+            // DOM
+            // ═══════════════════════════════════════
             const dateDisplay = document.getElementById('dateDisplay');
             const toast = document.getElementById('toast');
             const tabBtns = document.querySelectorAll('.tab-btn');
@@ -344,7 +524,13 @@
             const sleepList = document.getElementById('sleepList');
             const sleepStats = document.getElementById('sleepStats');
 
-            // ── localStorage ──
+            const historyDateFilter = document.getElementById('historyDateFilter');
+            const historyList = document.getElementById('historyList');
+            const historyStats = document.getElementById('historyStats');
+
+            // ═══════════════════════════════════════
+            // localStorage
+            // ═══════════════════════════════════════
             const STORAGE_KEY = 'babyTracker';
             function loadData() {
                 try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch (e) {}
@@ -353,7 +539,9 @@
             function saveData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
             function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 6); }
 
-            // ── Helpers ──
+            // ═══════════════════════════════════════
+            // Helpers
+            // ═══════════════════════════════════════
             function showToast(msg) {
                 toast.textContent = msg; toast.classList.add('show');
                 clearTimeout(toast._timeout);
@@ -374,24 +562,41 @@
                 if (isYesterday) return `Χθες, ${time}`;
                 return `${date}, ${time}`;
             }
+            function formatDateFull(isoStr) {
+                const d = new Date(isoStr);
+                return d.toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            }
+            function formatDateShort(isoStr) {
+                const d = new Date(isoStr);
+                const now = new Date();
+                if (d.toDateString() === now.toDateString()) return 'Σήμερα';
+                const y = new Date(now); y.setDate(y.getDate() - 1);
+                if (d.toDateString() === y.toDateString()) return 'Χθες';
+                return d.toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'short' });
+            }
             function getTodayStr() { return new Date().toISOString().split('T')[0]; }
             function setDefaultTime(el) {
                 const now = new Date();
                 el.value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
             }
 
-            // ── Tabs ──
+            // ═══════════════════════════════════════
+            // Tabs
+            // ═══════════════════════════════════════
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     tabBtns.forEach(b => b.classList.remove('active'));
                     sections.forEach(s => s.classList.remove('active'));
                     btn.classList.add('active');
                     document.getElementById(`section-${btn.dataset.tab}`).classList.add('active');
-                    refreshAll();
+                    if (btn.dataset.tab === 'history') { refreshHistory(); }
+                    else { refreshAll(); }
                 });
             });
 
-            // ═══════════════ ΘΗΛΑΣΜΟΣ ═══════════════
+            // ═══════════════════════════════════════
+            // ΘΗΛΑΣΜΟΣ
+            // ═══════════════════════════════════════
             feedingForm.addEventListener('submit', e => {
                 e.preventDefault();
                 const data = loadData();
@@ -477,7 +682,9 @@
             };
             function refreshFeedings() { renderFeedings(); }
 
-            // ═══════════════ ΤΣΙΣΑ ═══════════════
+            // ═══════════════════════════════════════
+            // ΤΣΙΣΑ
+            // ═══════════════════════════════════════
             peeForm.addEventListener('submit', e => {
                 e.preventDefault();
                 const data = loadData(); const now = new Date();
@@ -540,7 +747,9 @@
             };
             function refreshPees() { renderPees(); }
 
-            // ═══════════════ ΚΑΚΑ ═══════════════
+            // ═══════════════════════════════════════
+            // ΚΑΚΑ
+            // ═══════════════════════════════════════
             poopForm.addEventListener('submit', e => {
                 e.preventDefault();
                 const data = loadData(); const now = new Date();
@@ -603,7 +812,9 @@
             };
             function refreshPoops() { renderPoops(); }
 
-            // ═══════════════ ΥΠΝΟΣ ═══════════════
+            // ═══════════════════════════════════════
+            // ΥΠΝΟΣ
+            // ═══════════════════════════════════════
             sleepForm.addEventListener('submit', e => {
                 e.preventDefault();
                 const data = loadData(); const now = new Date();
@@ -678,36 +889,214 @@
             };
             function refreshSleeps() { renderSleeps(); }
 
-            // ── Cancel Edit ──
+            // ═══════════════════════════════════════════════
+            // 📋 ΝΕΑ ΚΑΡΤΕΛΑ: ΠΛΗΡΕΣ ΙΣΤΟΡΙΚΟ
+            // ═══════════════════════════════════════════════
+            historyDateFilter.addEventListener('change', () => refreshHistory());
+
+            window._clearHistoryFilter = function() {
+                historyDateFilter.value = '';
+                refreshHistory();
+            };
+
+            function refreshHistory() {
+                const data = loadData();
+                const filterDate = historyDateFilter.value; // 'YYYY-MM-DD' ή κενό
+
+                // Merge όλες τις καταχωρήσεις σε ένα array με type
+                let all = [];
+                data.feedings.forEach(f => all.push({ ...f, type: 'feeding' }));
+                data.pees.forEach(p => all.push({ ...p, type: 'pee' }));
+                data.poops.forEach(p => all.push({ ...p, type: 'poop' }));
+                data.sleeps.forEach(s => all.push({ ...s, type: 'sleep' }));
+
+                // Φιλτράρισμα ανά ημερομηνία
+                if (filterDate) {
+                    all = all.filter(item => {
+                        const timeField = item.type === 'sleep' ? item.startTime : item.time;
+                        return timeField.startsWith(filterDate);
+                    });
+                }
+
+                // Ταξινόμηση: πιο πρόσφατα πρώτα
+                all.sort((a, b) => {
+                    const ta = a.type === 'sleep' ? a.startTime : a.time;
+                    const tb = b.type === 'sleep' ? b.startTime : b.time;
+                    return new Date(tb) - new Date(ta);
+                });
+
+                // Stats
+                const feedC = all.filter(i => i.type === 'feeding').length;
+                const peeC = all.filter(i => i.type === 'pee').length;
+                const poopC = all.filter(i => i.type === 'poop').length;
+                const sleepC = all.filter(i => i.type === 'sleep').length;
+                historyStats.innerHTML = `
+                    <div class="stat-chip">🍼 <span class="stat-num">${feedC}</span> θηλασμοί</div>
+                    <div class="stat-chip">💧 <span class="stat-num">${peeC}</span> τσίσες</div>
+                    <div class="stat-chip">💩 <span class="stat-num">${poopC}</span> κακά</div>
+                    <div class="stat-chip">😴 <span class="stat-num">${sleepC}</span> ύπνοι</div>
+                    <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${all.length}</span></div>
+                `;
+
+                if (all.length === 0) {
+                    historyList.innerHTML = `<div class="empty-state"><span class="empty-icon">📋</span><p>Δεν υπάρχουν καταχωρήσεις${filterDate ? ' για αυτή την ημερομηνία' : ' ακόμα'}</p></div>`;
+                    return;
+                }
+
+                // Ομαδοποίηση ανά ημερομηνία
+                const groups = {};
+                all.forEach(item => {
+                    const timeField = item.type === 'sleep' ? item.startTime : item.time;
+                    const dateKey = timeField.split('T')[0]; // 'YYYY-MM-DD'
+                    if (!groups[dateKey]) groups[dateKey] = [];
+                    groups[dateKey].push(item);
+                });
+
+                // Ταξινόμηση groups: πιο πρόσφατη ημερομηνία πρώτα
+                const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+                let html = '';
+                sortedDates.forEach(dateKey => {
+                    const items = groups[dateKey];
+                    html += `<div class="date-group-header"><span class="dg-icon">📅</span> ${formatDateShort(dateKey)} (${items.length} καταχωρήσεις)</div>`;
+                    html += `<ul class="records-list" style="margin-bottom:12px;">`;
+                    items.forEach(item => {
+                        html += renderHistoryItem(item);
+                    });
+                    html += `</ul>`;
+                });
+                historyList.innerHTML = html;
+
+                // Επανασύνδεση events για edit/delete στα history items
+                bindHistoryActions();
+            }
+
+            function renderHistoryItem(item) {
+                const id = item.id;
+                const timeField = item.type === 'sleep' ? item.startTime : item.time;
+                const timeOnly = new Date(timeField).toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
+
+                let badgeHtml = '';
+                let detailHtml = '';
+                if (item.type === 'feeding') {
+                    badgeHtml = `<span class="record-badge ${item.side==='left'?'badge-left':'badge-right'}">🍼 ${item.side==='left'?'Αριστερό':'Δεξί'}</span>`;
+                    detailHtml = `⏱️ ${formatDuration(item.duration)}`;
+                } else if (item.type === 'pee') {
+                    badgeHtml = `<span class="record-badge badge-pee">💧 Τσίσα</span>`;
+                    detailHtml = ``;
+                } else if (item.type === 'poop') {
+                    badgeHtml = `<span class="record-badge badge-poop">💩 Κακά</span>`;
+                    detailHtml = ``;
+                } else if (item.type === 'sleep') {
+                    badgeHtml = `<span class="record-badge badge-sleep">😴 Ύπνος</span>`;
+                    const endDate = new Date(new Date(item.startTime).getTime() + item.duration * 60000);
+                    const endTime = endDate.toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
+                    detailHtml = `⏱️ ${formatDuration(item.duration)} → ${endTime}`;
+                }
+
+                return `
+                <li class="record-item" data-id="${id}" data-type="${item.type}">
+                    <div class="record-info">
+                        <div class="record-main">${badgeHtml} ${detailHtml}</div>
+                        <div class="record-sub">🕐 ${timeOnly}</div>
+                    </div>
+                    <div class="record-actions">
+                        <button class="btn btn-sm btn-edit" data-action="edit" data-id="${id}" data-type="${item.type}">✏️</button>
+                        <button class="btn btn-sm btn-delete" data-action="delete" data-id="${id}" data-type="${item.type}">🗑️</button>
+                    </div>
+                </li>`;
+            }
+
+            function bindHistoryActions() {
+                // Edit buttons
+                historyList.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const type = this.dataset.type;
+                        if (type === 'feeding') window._editFeeding(id);
+                        else if (type === 'pee') window._editPee(id);
+                        else if (type === 'poop') window._editPoop(id);
+                        else if (type === 'sleep') window._editSleep(id);
+                        // Μετά το save, θα χρειαστεί refresh του history
+                        // Θα το χειριστούμε μέσω του _saveEdit που καλεί refreshHistory
+                    });
+                });
+                // Delete buttons
+                historyList.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const type = this.dataset.type;
+                        if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
+                        const data = loadData();
+                        if (type === 'feeding') data.feedings = data.feedings.filter(f => f.id !== id);
+                        else if (type === 'pee') data.pees = data.pees.filter(p => p.id !== id);
+                        else if (type === 'poop') data.poops = data.poops.filter(p => p.id !== id);
+                        else if (type === 'sleep') data.sleeps = data.sleeps.filter(s => s.id !== id);
+                        saveData(data);
+                        showToast('🗑️ Διαγράφηκε!');
+                        refreshHistory();
+                        refreshAll();
+                    });
+                });
+            }
+
+            // Override των _saveEdit functions για να κάνουν και refresh του history
+            const origSaveFeeding = window._saveFeedingEdit;
+            const origSavePee = window._savePeeEdit;
+            const origSavePoop = window._savePoopEdit;
+            const origSaveSleep = window._saveSleepEdit;
+
+            // ═══════════════════════════════════════
+            // Cancel Edit
+            // ═══════════════════════════════════════
             window._cancelEdit = function(type) {
                 if (type === 'feeding') refreshFeedings();
                 else if (type === 'pee') refreshPees();
                 else if (type === 'poop') refreshPoops();
                 else if (type === 'sleep') refreshSleeps();
+                refreshHistory();
             };
 
-            // ── Refresh All ──
-            function refreshAll() { refreshFeedings(); refreshPees(); refreshPoops(); refreshSleeps(); }
-
-            // ── Date Display ──
-            function updateDateDisplay() {
-                const now = new Date();
-                dateDisplay.textContent = now.toLocaleDateString('el-GR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            // ═══════════════════════════════════════
+            // Refresh All
+            // ═══════════════════════════════════════
+            function refreshAll() {
+                refreshFeedings();
+                refreshPees();
+                refreshPoops();
+                refreshSleeps();
+                refreshHistory();
             }
 
-            // ── Init ──
+            // ═══════════════════════════════════════
+            // Date Display (βελτιωμένο)
+            // ═══════════════════════════════════════
+            function updateDateDisplay() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateDisplay.textContent = now.toLocaleDateString('el-GR', options);
+            }
+
+            // ═══════════════════════════════════════
+            // Init
+            // ═══════════════════════════════════════
             function init() {
                 updateDateDisplay();
                 setDefaultTime(feedingTime);
                 setDefaultTime(peeTime);
                 setDefaultTime(poopTime);
                 setDefaultTime(sleepStartTime);
+                // Set history date filter to today by default
+                historyDateFilter.value = getTodayStr();
                 refreshAll();
             }
+
             init();
             setInterval(updateDateDisplay, 60000);
 
-            console.log('👶 Baby Tracker έτοιμο! Τα δεδομένα αποθηκεύονται στο localStorage.');
+            console.log('👶 Baby Tracker έτοιμο!');
+            console.log('📋 Καρτέλες: Θηλασμός 🍼 | Τσίσα 💧 | Κακά 💩 | Ύπνος 😴 | Ιστορικό 📋');
+            console.log('💾 Τα δεδομένα αποθηκεύονται στο localStorage.');
         })();
     </script>
 </body>
