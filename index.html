@@ -10,351 +10,216 @@
             --card: #ffffff;
             --primary: #f59e8b;
             --primary-dark: #e8786b;
-            --accent-blue: #7ec8e3;
-            --accent-green: #8fc9a9;
-            --accent-yellow: #f0d58c;
             --text: #4a3f3c;
             --text-light: #8b7e78;
             --border: #f0e4db;
             --danger: #e88b8b;
-            --shadow: 0 2px 12px rgba(74, 63, 60, 0.06);
+            --shadow: 0 2px 12px rgba(74,63,60,0.06);
             --radius: 16px;
             --radius-sm: 10px;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding-bottom: 80px;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; padding-bottom: 80px;
         }
 
-        /* ============ HEADER ============ */
+        /* HEADER */
         .header {
             background: linear-gradient(135deg, #f9c5b6 0%, #f7b5a5 40%, #f59e8b 100%);
-            padding: 18px 16px 22px;
-            border-radius: 0 0 30px 30px;
-            text-align: center;
-            color: white;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(245, 158, 139, 0.25);
+            padding: 18px 16px 22px; border-radius: 0 0 30px 30px;
+            text-align: center; color: white;
+            box-shadow: 0 4px 20px rgba(245,158,139,0.25);
         }
-        .header .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-        .header .baby-icon {
-            font-size: 2.4rem;
-        }
-
-        /* --- ΒΕΛΤΙΩΜΕΝΗ ΗΜΕΡΟΜΗΝΙΑ --- */
+        .header-top { display:flex; align-items:center; justify-content:center; gap:8px; }
+        .header h1 { font-size:1.5rem; font-weight:700; letter-spacing:-0.3px; }
+        .baby-icon { font-size:2.4rem; }
         .date-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 12px;
-            background: rgba(255, 255, 255, 0.22);
-            backdrop-filter: blur(4px);
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            font-weight: 600;
-            font-size: 1rem;
-            letter-spacing: 0.2px;
+            display:inline-flex; align-items:center; gap:10px; margin-top:12px;
+            background:rgba(255,255,255,0.22); backdrop-filter:blur(4px);
+            padding:10px 20px; border-radius:50px;
+            border:1px solid rgba(255,255,255,0.35);
+            font-weight:600; font-size:1rem;
         }
-        .date-box .date-icon {
-            font-size: 1.4rem;
+        .date-box .date-icon { font-size:1.4rem; }
+        .date-box input[type="date"] {
+            background:transparent; border:none; color:white;
+            font-weight:600; font-size:1rem; font-family:inherit;
+            cursor:pointer; outline:none;
+            text-shadow:0 1px 2px rgba(0,0,0,0.08); padding:2px 0;
         }
-        .date-box .date-text {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        .date-box input[type="date"]::-webkit-calendar-picker-indicator {
+            filter:invert(1); cursor:pointer; opacity:0.8;
         }
 
-        /* ============ TABS ============ */
+        /* TABS */
         .tabs {
-            display: flex;
-            gap: 6px;
-            padding: 16px 12px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            justify-content: center;
-            flex-wrap: wrap;
+            display:flex; gap:6px; padding:16px 12px;
+            overflow-x:auto; scrollbar-width:none;
+            justify-content:center; flex-wrap:wrap;
         }
-        .tabs::-webkit-scrollbar { display: none; }
+        .tabs::-webkit-scrollbar { display:none; }
         .tab-btn {
-            flex-shrink: 0;
-            padding: 10px 16px;
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            background: var(--card);
-            cursor: pointer;
-            font-size: 0.83rem;
-            font-weight: 600;
-            color: var(--text-light);
-            transition: all 0.25s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            flex-shrink:0; padding:10px 16px;
+            border:2px solid var(--border); border-radius:50px;
+            background:var(--card); cursor:pointer;
+            font-size:0.83rem; font-weight:600; color:var(--text-light);
+            transition:all 0.25s; white-space:nowrap;
+            display:flex; align-items:center; gap:5px;
         }
         .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 14px rgba(245, 158, 139, 0.35);
-            transform: translateY(-1px);
+            background:var(--primary); color:white; border-color:var(--primary);
+            box-shadow:0 4px 14px rgba(245,158,139,0.35); transform:translateY(-1px);
         }
-        .tab-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
-        .tab-btn.active:hover { color: white; }
-        .tab-icon { font-size: 1.1rem; }
+        .tab-btn:hover { border-color:var(--primary); color:var(--primary-dark); }
+        .tab-btn.active:hover { color:white; }
+        .tab-icon { font-size:1.1rem; }
 
-        /* ============ CONTAINER ============ */
-        .container { max-width: 520px; margin: 0 auto; padding: 0 12px; }
-        .section { display: none; }
-        .section.active { display: block; }
-
-        /* ============ CARD ============ */
+        /* CONTAINER / CARDS */
+        .container { max-width:520px; margin:0 auto; padding:0 12px; }
+        .section { display:none; }
+        .section.active { display:block; }
         .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 18px 16px;
-            margin-bottom: 12px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            animation: popIn 0.3s ease-out;
+            background:var(--card); border-radius:var(--radius);
+            padding:18px 16px; margin-bottom:12px;
+            box-shadow:var(--shadow); border:1px solid var(--border);
+            animation:popIn 0.3s ease-out;
         }
-        .card h2 {
-            font-size: 1.05rem;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text);
-        }
-        .card h2 .emoji { font-size: 1.3rem; }
+        .card h2 { font-size:1.05rem; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+        .card h2 .emoji { font-size:1.3rem; }
 
-        /* ============ FORM ============ */
-        .form-group { margin-bottom: 12px; }
+        /* FORM */
+        .form-group { margin-bottom:12px; }
         .form-group label {
-            display: block;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display:block; font-size:0.78rem; font-weight:600;
+            color:var(--text-light); margin-bottom:5px;
+            text-transform:uppercase; letter-spacing:0.5px;
         }
-        .form-row { display: flex; gap: 10px; }
-        .form-row > * { flex: 1; }
-
-        input[type="datetime-local"],
-        input[type="time"],
-        input[type="number"],
-        input[type="text"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.95rem;
-            font-family: inherit;
-            background: #fefcfb;
-            color: var(--text);
-            transition: border-color 0.2s;
-            outline: none;
+        .form-row { display:flex; gap:10px; }
+        .form-row > * { flex:1; }
+        input, select {
+            width:100%; padding:11px 14px;
+            border:2px solid var(--border); border-radius:var(--radius-sm);
+            font-size:0.95rem; font-family:inherit;
+            background:#fefcfb; color:var(--text);
+            transition:border-color 0.2s; outline:none;
         }
         input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(245, 158, 139, 0.1);
+            border-color:var(--primary);
+            box-shadow:0 0 0 3px rgba(245,158,139,0.1);
         }
         select {
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238b7e78'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 34px;
+            cursor:pointer; appearance:none; -webkit-appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238b7e78'/%3E%3C/svg%3E");
+            background-repeat:no-repeat; background-position:right 14px center;
+            padding-right:34px;
         }
 
-        /* ============ BUTTONS ============ */
+        /* BUTTONS */
         .btn {
-            padding: 11px 22px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            font-family: inherit;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            justify-content: center;
+            padding:11px 22px; border:none; border-radius:50px;
+            cursor:pointer; font-size:0.9rem; font-weight:600;
+            font-family:inherit; transition:all 0.2s;
+            display:inline-flex; align-items:center; gap:6px; justify-content:center;
         }
         .btn-primary {
-            background: var(--primary);
-            color: white;
-            width: 100%;
-            padding: 13px;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 139, 0.3);
+            background:var(--primary); color:white; width:100%;
+            padding:13px; font-size:0.95rem;
+            box-shadow:0 4px 12px rgba(245,158,139,0.3);
         }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(245, 158, 139, 0.4);
-        }
-        .btn-primary:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(245, 158, 139, 0.3); }
-        .btn-sm { padding: 6px 14px; font-size: 0.78rem; border-radius: 20px; }
-        .btn-edit { background: #fff3e0; color: #e8a040; }
-        .btn-edit:hover { background: #ffe8c0; }
-        .btn-delete { background: #ffeaea; color: var(--danger); }
-        .btn-delete:hover { background: #ffd4d4; }
-        .btn-cancel { background: #f0f0f0; color: #888; margin-top: 6px; }
-        .btn-cancel:hover { background: #e4e4e4; }
+        .btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); }
+        .btn-sm { padding:6px 14px; font-size:0.78rem; border-radius:20px; }
+        .btn-edit { background:#fff3e0; color:#e8a040; }
+        .btn-edit:hover { background:#ffe8c0; }
+        .btn-delete { background:#ffeaea; color:var(--danger); }
+        .btn-delete:hover { background:#ffd4d4; }
+        .btn-cancel { background:#f0f0f0; color:#888; margin-top:6px; }
+        .btn-cancel:hover { background:#e4e4e4; }
+        .btn-clear { background:#f0f0f0; color:#666; }
+        .btn-clear:hover { background:#e4e4e4; }
 
-        /* ============ RECORDS LIST ============ */
-        .records-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        /* RECORDS */
+        .records-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
         .record-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            background: #fefcfb;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            gap: 10px;
-            flex-wrap: wrap;
+            display:flex; align-items:center; justify-content:space-between;
+            padding:12px 14px; background:#fefcfb;
+            border-radius:var(--radius-sm); border:1px solid var(--border);
+            gap:10px; flex-wrap:wrap;
         }
-        .record-info { flex: 1; min-width: 140px; }
-        .record-info .record-main { font-weight: 600; font-size: 0.88rem; }
-        .record-info .record-sub { font-size: 0.73rem; color: var(--text-light); margin-top: 2px; }
-        .record-actions { display: flex; gap: 6px; }
-        .record-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .badge-left { background: #ffe0f0; color: #c06080; }
-        .badge-right { background: #e0e8ff; color: #5070c0; }
-        .badge-pee { background: #e0f0ff; color: #5088c0; }
-        .badge-poop { background: #f0e8d8; color: #a08050; }
-        .badge-sleep { background: #e0f0e8; color: #508060; }
-        .badge-feeding { background: #fde8e0; color: #c06850; }
+        .record-info { flex:1; min-width:140px; }
+        .record-main { font-weight:600; font-size:0.9rem; }
+        .record-sub { font-size:0.75rem; color:var(--text-light); margin-top:2px; }
+        .record-actions { display:flex; gap:6px; }
 
-        /* ============ HISTORY DATE GROUP ============ */
+        /* BADGES */
+        .badge {
+            display:inline-block; padding:3px 10px; border-radius:20px;
+            font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
+        }
+        .badge-left { background:#ffe0f0; color:#c06080; }
+        .badge-right { background:#e0e8ff; color:#5070c0; }
+        .badge-pee { background:#e0f0ff; color:#5088c0; }
+        .badge-poop { background:#f0e8d8; color:#a08050; }
+        .badge-sleep { background:#e0f0e8; color:#508060; }
+
+        /* DATE GROUP */
         .date-group-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 0 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 6px;
-            margin-top: 4px;
+            display:flex; align-items:center; gap:8px;
+            padding:10px 0 6px; font-size:0.85rem; font-weight:700;
+            color:var(--primary-dark); border-bottom:2px solid var(--border);
+            margin-bottom:6px; margin-top:4px;
         }
-        .date-group-header:first-child { margin-top: 0; }
-        .date-group-header .dg-icon { font-size: 1.1rem; }
+        .date-group-header:first-child { margin-top:0; }
 
-        /* ============ EMPTY STATE ============ */
-        .empty-state { text-align: center; padding: 32px 16px; color: var(--text-light); }
-        .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 10px; opacity: 0.6; }
-        .empty-state p { font-size: 0.9rem; }
-
-        /* ============ STATS ============ */
-        .stats-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        /* EMPTY / STATS / EDIT */
+        .empty-state { text-align:center; padding:32px 16px; color:var(--text-light); }
+        .empty-state .empty-icon { font-size:3rem; display:block; margin-bottom:10px; opacity:0.6; }
+        .empty-state p { font-size:0.9rem; }
+        .stats-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
         .stat-chip {
-            background: #fefcfb;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 8px 14px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background:#fefcfb; border:1px solid var(--border);
+            border-radius:20px; padding:8px 14px;
+            font-size:0.78rem; font-weight:600; color:var(--text);
+            display:flex; align-items:center; gap:5px;
         }
-        .stat-chip .stat-num { color: var(--primary-dark); font-size: 1rem; }
-
-        /* ============ EDIT FORM ============ */
+        .stat-chip .stat-num { color:var(--primary-dark); font-size:1rem; }
         .edit-form {
-            background: #fffdf5;
-            border: 2px dashed #f0d58c;
-            border-radius: var(--radius-sm);
-            padding: 14px;
-            margin-top: 8px;
+            background:#fffdf5; border:2px dashed #f0d58c;
+            border-radius:var(--radius-sm); padding:14px; margin-top:8px;
         }
-        .edit-form .form-group { margin-bottom: 8px; }
-        .edit-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .edit-actions { display:flex; gap:8px; margin-top:10px; }
+        .history-filter { display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+        .history-filter input[type="date"] { flex:1; min-width:140px; }
 
-        /* ============ DATE FILTER IN HISTORY ============ */
-        .history-filter {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-        .history-filter input[type="date"] {
-            flex: 1;
-            min-width: 140px;
-        }
-        .history-filter .btn-sm { flex-shrink: 0; }
-
-        /* ============ TOAST ============ */
+        /* TOAST */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #4a3f3c;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            z-index: 999;
-            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
+            position:fixed; bottom:30px; left:50%;
+            transform:translateX(-50%) translateY(100px);
+            background:#4a3f3c; color:white;
+            padding:12px 24px; border-radius:50px;
+            font-size:0.85rem; font-weight:600; z-index:999;
+            transition:transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+            pointer-events:none;
         }
-        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.show { transform:translateX(-50%) translateY(0); }
 
         @keyframes popIn {
-            from { transform: scale(0.85); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform:scale(0.85); opacity:0; }
+            to { transform:scale(1); opacity:1; }
         }
-
-        @media (max-width: 400px) {
-            .tabs { gap: 3px; padding: 12px 6px; }
-            .tab-btn { padding: 7px 11px; font-size: 0.73rem; }
-            .record-item { padding: 10px; }
-            .form-row { flex-direction: column; gap: 8px; }
-            .date-box { padding: 8px 16px; font-size: 0.88rem; }
+        @media (max-width:400px) {
+            .tabs { gap:3px; padding:12px 6px; }
+            .tab-btn { padding:7px 11px; font-size:0.73rem; }
+            .record-item { padding:10px; }
+            .form-row { flex-direction:column; gap:8px; }
+            .date-box { padding:8px 16px; font-size:0.88rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============ HEADER ============ -->
+    <!-- HEADER -->
     <div class="header">
         <div class="header-top">
             <span class="baby-icon">👶</span>
@@ -362,11 +227,11 @@
         </div>
         <div class="date-box">
             <span class="date-icon">📅</span>
-            <span class="date-text" id="dateDisplay"></span>
+            <input type="date" id="selectedDate" title="Ημερομηνία για νέες καταχωρήσεις">
         </div>
     </div>
 
-    <!-- ============ TABS ============ -->
+    <!-- TABS -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="feeding"><span class="tab-icon">🍼</span> Θηλασμός</button>
         <button class="tab-btn" data-tab="pee"><span class="tab-icon">💧</span> Τσίσα</button>
@@ -375,10 +240,10 @@
         <button class="tab-btn" data-tab="history"><span class="tab-icon">📋</span> Ιστορικό</button>
     </div>
 
-    <!-- ============ MAIN ============ -->
+    <!-- MAIN -->
     <div class="container">
 
-        <!-- ─── ΘΗΛΑΣΜΟΣ ─── -->
+        <!-- ΘΗΛΑΣΜΟΣ -->
         <div class="section active" id="section-feeding">
             <div class="card">
                 <h2><span class="emoji">🍼</span> Καταγραφή Θηλασμού</h2>
@@ -410,7 +275,7 @@
             </div>
         </div>
 
-        <!-- ─── ΤΣΙΣΑ ─── -->
+        <!-- ΤΣΙΣΑ -->
         <div class="section" id="section-pee">
             <div class="card">
                 <h2><span class="emoji">💧</span> Καταγραφή Τσίσας</h2>
@@ -429,7 +294,7 @@
             </div>
         </div>
 
-        <!-- ─── ΚΑΚΑ ─── -->
+        <!-- ΚΑΚΑ -->
         <div class="section" id="section-poop">
             <div class="card">
                 <h2><span class="emoji">💩</span> Καταγραφή Κακά</h2>
@@ -448,7 +313,7 @@
             </div>
         </div>
 
-        <!-- ─── ΥΠΝΟΣ ─── -->
+        <!-- ΥΠΝΟΣ -->
         <div class="section" id="section-sleep">
             <div class="card">
                 <h2><span class="emoji">😴</span> Καταγραφή Ύπνου</h2>
@@ -473,13 +338,13 @@
             </div>
         </div>
 
-        <!-- ─── ΙΣΤΟΡΙΚΟ (ΝΕΑ ΚΑΡΤΕΛΑ) ─── -->
+        <!-- ΙΣΤΟΡΙΚΟ -->
         <div class="section" id="section-history">
             <div class="card">
                 <h2><span class="emoji">📋</span> Πλήρες Ιστορικό</h2>
                 <div class="history-filter">
                     <input type="date" id="historyDateFilter" title="Φίλτρο ημερομηνίας">
-                    <button class="btn btn-sm btn-primary" onclick="window._clearHistoryFilter()" style="background:#f0f0f0;color:#666;">✖ Καθαρισμός</button>
+                    <button class="btn btn-sm btn-clear" id="clearHistoryFilterBtn">✖ Καθαρισμός</button>
                 </div>
                 <div class="stats-bar" id="historyStats"></div>
                 <div id="historyList"></div>
@@ -488,616 +353,527 @@
 
     </div>
 
-    <!-- ============ TOAST ============ -->
     <div class="toast" id="toast"></div>
 
     <script>
-        (function() {
-            // ═══════════════════════════════════════
-            // DOM
-            // ═══════════════════════════════════════
-            const dateDisplay = document.getElementById('dateDisplay');
-            const toast = document.getElementById('toast');
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const sections = document.querySelectorAll('.section');
+    (function() {
+        // ═══════════ DOM REFS ═══════════
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
 
-            const feedingForm = document.getElementById('feedingForm');
-            const feedingSide = document.getElementById('feedingSide');
-            const feedingDuration = document.getElementById('feedingDuration');
-            const feedingTime = document.getElementById('feedingTime');
-            const feedingList = document.getElementById('feedingList');
-            const feedingStats = document.getElementById('feedingStats');
+        const selectedDateInput = $('#selectedDate');
+        const toast = $('#toast');
+        const tabBtns = $$('.tab-btn');
+        const sections = $$('.section');
 
-            const peeForm = document.getElementById('peeForm');
-            const peeTime = document.getElementById('peeTime');
-            const peeList = document.getElementById('peeList');
-            const peeStats = document.getElementById('peeStats');
+        const feedingForm = $('#feedingForm');
+        const feedingSide = $('#feedingSide');
+        const feedingDuration = $('#feedingDuration');
+        const feedingTime = $('#feedingTime');
+        const feedingList = $('#feedingList');
+        const feedingStats = $('#feedingStats');
 
-            const poopForm = document.getElementById('poopForm');
-            const poopTime = document.getElementById('poopTime');
-            const poopList = document.getElementById('poopList');
-            const poopStats = document.getElementById('poopStats');
+        const peeForm = $('#peeForm');
+        const peeTime = $('#peeTime');
+        const peeList = $('#peeList');
+        const peeStats = $('#peeStats');
 
-            const sleepForm = document.getElementById('sleepForm');
-            const sleepStartTime = document.getElementById('sleepStartTime');
-            const sleepDuration = document.getElementById('sleepDuration');
-            const sleepList = document.getElementById('sleepList');
-            const sleepStats = document.getElementById('sleepStats');
+        const poopForm = $('#poopForm');
+        const poopTime = $('#poopTime');
+        const poopList = $('#poopList');
+        const poopStats = $('#poopStats');
 
-            const historyDateFilter = document.getElementById('historyDateFilter');
-            const historyList = document.getElementById('historyList');
-            const historyStats = document.getElementById('historyStats');
+        const sleepForm = $('#sleepForm');
+        const sleepStartTime = $('#sleepStartTime');
+        const sleepDuration = $('#sleepDuration');
+        const sleepList = $('#sleepList');
+        const sleepStats = $('#sleepStats');
 
-            // ═══════════════════════════════════════
-            // localStorage
-            // ═══════════════════════════════════════
-            const STORAGE_KEY = 'babyTracker';
-            function loadData() {
-                try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch (e) {}
-                return { feedings: [], pees: [], poops: [], sleeps: [] };
-            }
-            function saveData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-            function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 6); }
+        const historyDateFilter = $('#historyDateFilter');
+        const historyList = $('#historyList');
+        const historyStats = $('#historyStats');
+        const clearHistoryFilterBtn = $('#clearHistoryFilterBtn');
 
-            // ═══════════════════════════════════════
-            // Helpers
-            // ═══════════════════════════════════════
-            function showToast(msg) {
-                toast.textContent = msg; toast.classList.add('show');
-                clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => toast.classList.remove('show'), 2000);
-            }
-            function formatDuration(min) {
-                if (min >= 60) { const h = Math.floor(min / 60); const m = min % 60; return m > 0 ? `${h}ω ${m}λ` : `${h}ω`; }
-                return `${min} λεπτά`;
-            }
-            function formatDate(isoStr) {
-                const d = new Date(isoStr); const now = new Date();
-                const isToday = d.toDateString() === now.toDateString();
-                const yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
-                const isYesterday = d.toDateString() === yesterday.toDateString();
-                const time = d.toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
-                const date = d.toLocaleDateString('el-GR', { day: 'numeric', month: 'short' });
-                if (isToday) return `Σήμερα, ${time}`;
-                if (isYesterday) return `Χθες, ${time}`;
-                return `${date}, ${time}`;
-            }
-            function formatDateFull(isoStr) {
-                const d = new Date(isoStr);
-                return d.toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            }
-            function formatDateShort(isoStr) {
-                const d = new Date(isoStr);
-                const now = new Date();
-                if (d.toDateString() === now.toDateString()) return 'Σήμερα';
-                const y = new Date(now); y.setDate(y.getDate() - 1);
-                if (d.toDateString() === y.toDateString()) return 'Χθες';
-                return d.toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'short' });
-            }
-            function getTodayStr() { return new Date().toISOString().split('T')[0]; }
-            function setDefaultTime(el) {
-                const now = new Date();
-                el.value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            }
+        // ═══════════ STORAGE ═══════════
+        const STORAGE_KEY = 'babyTracker';
+        function loadData() {
+            try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {}
+            return { feedings:[], pees:[], poops:[], sleeps:[] };
+        }
+        function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+        function genId() { return Date.now().toString(36) + Math.random().toString(36).substring(2,8); }
 
-            // ═══════════════════════════════════════
-            // Tabs
-            // ═══════════════════════════════════════
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    sections.forEach(s => s.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById(`section-${btn.dataset.tab}`).classList.add('active');
-                    if (btn.dataset.tab === 'history') { refreshHistory(); }
-                    else { refreshAll(); }
-                });
+        // ═══════════ HELPERS ═══════════
+        function showToast(msg) {
+            toast.textContent = msg; toast.classList.add('show');
+            clearTimeout(toast._t);
+            toast._t = setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        function fmtDuration(min) {
+            if (min >= 60) { const h = Math.floor(min/60); const m = min%60; return m>0 ? h+'ω '+m+'λ' : h+'ω'; }
+            return min+' λεπτά';
+        }
+        function fmtDate(iso) {
+            const d = new Date(iso), now = new Date();
+            const y = new Date(now); y.setDate(y.getDate()-1);
+            const t = d.toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
+            if (d.toDateString() === now.toDateString()) return 'Σήμερα, '+t;
+            if (d.toDateString() === y.toDateString()) return 'Χθες, '+t;
+            return d.toLocaleDateString('el-GR',{day:'numeric',month:'short'})+', '+t;
+        }
+        function fmtDateShort(iso) {
+            const d = new Date(iso), now = new Date();
+            if (d.toDateString() === now.toDateString()) return '📅 Σήμερα';
+            const y = new Date(now); y.setDate(y.getDate()-1);
+            if (d.toDateString() === y.toDateString()) return '📅 Χθες';
+            return '📅 '+d.toLocaleDateString('el-GR',{weekday:'long',day:'numeric',month:'short'});
+        }
+        function getSelDate() { return selectedDateInput.value; }
+        function getTodayStr() { return new Date().toISOString().split('T')[0]; }
+        function setNow(el) {
+            const n = new Date();
+            el.value = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+        }
+        function makeTimestamp(dateStr, timeStr) {
+            const [y,m,d] = dateStr.split('-').map(Number);
+            const [h,mi] = timeStr.split(':');
+            return new Date(y, m-1, d, +h, +mi).toISOString();
+        }
+
+        // ═══════════ TABS ═══════════
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                btn.classList.add('active');
+                $('#section-'+btn.dataset.tab).classList.add('active');
+                if (btn.dataset.tab === 'history') refreshHistory();
+                else refreshAll();
             });
+        });
 
-            // ═══════════════════════════════════════
-            // ΘΗΛΑΣΜΟΣ
-            // ═══════════════════════════════════════
-            feedingForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const data = loadData();
-                const now = new Date();
-                const [h, m] = feedingTime.value.split(':');
-                const ts = new Date(now.getFullYear(), now.getMonth(), now.getDate(), +h, +m).toISOString();
-                data.feedings.push({ id: generateId(), side: feedingSide.value, duration: +feedingDuration.value, time: ts, createdAt: new Date().toISOString() });
-                data.feedings.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data);
-                feedingForm.reset(); setDefaultTime(feedingTime); feedingDuration.value = 15;
-                showToast('✅ Ο θηλασμός καταγράφηκε!');
-                refreshFeedings();
+        // ═══════════ ΘΗΛΑΣΜΟΣ ═══════════
+        feedingForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const data = loadData();
+            data.feedings.push({
+                id: genId(), side: feedingSide.value,
+                duration: +feedingDuration.value,
+                time: makeTimestamp(getSelDate(), feedingTime.value),
+                createdAt: new Date().toISOString()
             });
+            data.feedings.sort((a,b) => new Date(b.time) - new Date(a.time));
+            saveData(data);
+            feedingForm.reset(); setNow(feedingTime); feedingDuration.value = 15;
+            showToast('✅ Ο θηλασμός καταγράφηκε!');
+            refreshFeedings();
+        });
 
-            function renderFeedings() {
-                const data = loadData();
-                const feedings = data.feedings;
-                const today = getTodayStr();
-                const todayF = feedings.filter(f => f.time.startsWith(today));
-                const total = todayF.reduce((s, f) => s + f.duration, 0);
-                const leftC = todayF.filter(f => f.side === 'left').length;
-                const rightC = todayF.filter(f => f.side === 'right').length;
-                feedingStats.innerHTML = `
-                    <div class="stat-chip">📅 Σήμερα: <span class="stat-num">${todayF.length}</span> θηλασμοί</div>
-                    <div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">${formatDuration(total)}</span></div>
-                    <div class="stat-chip">🤱 Αρ: <span class="stat-num">${leftC}</span> | Δε: <span class="stat-num">${rightC}</span></div>`;
-                if (!feedings.length) {
-                    feedingList.innerHTML = `<div class="empty-state"><span class="empty-icon">🍼</span><p>Δεν υπάρχουν καταχωρήσεις ακόμα</p></div>`;
-                    return;
-                }
-                feedingList.innerHTML = feedings.map(f => `
-                    <li class="record-item" data-id="${f.id}">
-                        <div class="record-info">
-                            <div class="record-main">
-                                <span class="record-badge ${f.side==='left'?'badge-left':'badge-right'}">${f.side==='left'?'Αριστερό':'Δεξί'}</span>
-                                ⏱️ ${formatDuration(f.duration)}
-                            </div>
-                            <div class="record-sub">${formatDate(f.time)}</div>
-                        </div>
-                        <div class="record-actions">
-                            <button class="btn btn-sm btn-edit" onclick="window._editFeeding('${f.id}')">✏️</button>
-                            <button class="btn btn-sm btn-delete" onclick="window._deleteFeeding('${f.id}')">🗑️</button>
-                        </div>
-                    </li>`).join('');
+        function renderFeedings() {
+            const data = loadData(), feedings = data.feedings, sel = getSelDate();
+            const selF = feedings.filter(f => f.time.startsWith(sel));
+            const total = selF.reduce((s,f) => s+f.duration, 0);
+            const lc = selF.filter(f => f.side==='left').length;
+            const rc = selF.filter(f => f.side==='right').length;
+            feedingStats.innerHTML = `
+                <div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">${selF.length}</span> θηλασμοί</div>
+                <div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">${fmtDuration(total)}</span></div>
+                <div class="stat-chip">🤱 Αρ: <span class="stat-num">${lc}</span> | Δε: <span class="stat-num">${rc}</span></div>`;
+            if (!feedings.length) {
+                feedingList.innerHTML = '<div class="empty-state"><span class="empty-icon">🍼</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
+                return;
             }
-
-            window._editFeeding = function(id) {
-                const data = loadData();
-                const item = data.feedings.find(f => f.id === id); if (!item) return;
-                const timeVal = new Date(item.time).toTimeString().slice(0, 5);
-                const el = document.querySelector(`#feedingList [data-id="${id}"]`); if (!el) return;
-                el.innerHTML = `
-                    <div class="edit-form" style="width:100%">
-                        <div class="form-group"><label>Στήθος</label>
-                            <select class="edit-side">
-                                <option value="left" ${item.side==='left'?'selected':''}>🤱 Αριστερό</option>
-                                <option value="right" ${item.side==='right'?'selected':''}>🤱 Δεξί</option>
-                            </select></div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Διάρκεια (λεπτά)</label><input type="number" class="edit-duration" value="${item.duration}" min="1" max="120"></div>
-                            <div class="form-group"><label>Ώρα</label><input type="time" class="edit-time" value="${timeVal}"></div>
-                        </div>
-                        <div class="edit-actions">
-                            <button class="btn btn-sm btn-primary" onclick="window._saveFeedingEdit('${id}')">💾 Αποθήκευση</button>
-                            <button class="btn btn-sm btn-cancel" onclick="window._cancelEdit('feeding')">❌ Άκυρο</button>
-                        </div></div>`;
-            };
-            window._saveFeedingEdit = function(id) {
-                const data = loadData(); const item = data.feedings.find(f => f.id === id); if (!item) return;
-                const el = document.querySelector(`#feedingList [data-id="${id}"]`);
-                item.side = el.querySelector('.edit-side').value;
-                item.duration = +el.querySelector('.edit-duration').value;
-                const [h, m] = el.querySelector('.edit-time').value.split(':');
-                const d = new Date(item.time);
-                item.time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), +h, +m).toISOString();
-                data.feedings.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data); showToast('✅ Ο θηλασμός ενημερώθηκε!'); refreshFeedings();
-            };
-            window._deleteFeeding = function(id) {
-                if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
-                const data = loadData(); data.feedings = data.feedings.filter(f => f.id !== id);
-                saveData(data); showToast('🗑️ Διαγράφηκε!'); refreshFeedings();
-            };
-            function refreshFeedings() { renderFeedings(); }
-
-            // ═══════════════════════════════════════
-            // ΤΣΙΣΑ
-            // ═══════════════════════════════════════
-            peeForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const data = loadData(); const now = new Date();
-                const [h, m] = peeTime.value.split(':');
-                const ts = new Date(now.getFullYear(), now.getMonth(), now.getDate(), +h, +m).toISOString();
-                data.pees.push({ id: generateId(), time: ts, createdAt: new Date().toISOString() });
-                data.pees.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data); peeForm.reset(); setDefaultTime(peeTime);
-                showToast('💧 Τσίσα καταγράφηκε!'); refreshPees();
-            });
-
-            function renderPees() {
-                const data = loadData(); const pees = data.pees; const today = getTodayStr();
-                const todayP = pees.filter(p => p.time.startsWith(today));
-                peeStats.innerHTML = `
-                    <div class="stat-chip">📅 Σήμερα: <span class="stat-num">${todayP.length}</span> τσίσες</div>
-                    <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${pees.length}</span> καταχωρήσεις</div>`;
-                if (!pees.length) {
-                    peeList.innerHTML = `<div class="empty-state"><span class="empty-icon">💧</span><p>Δεν υπάρχουν καταχωρήσεις ακόμα</p></div>`;
-                    return;
-                }
-                peeList.innerHTML = pees.map(p => `
-                    <li class="record-item" data-id="${p.id}">
-                        <div class="record-info">
-                            <div class="record-main"><span class="record-badge badge-pee">💧 Τσίσα</span></div>
-                            <div class="record-sub">${formatDate(p.time)}</div>
-                        </div>
-                        <div class="record-actions">
-                            <button class="btn btn-sm btn-edit" onclick="window._editPee('${p.id}')">✏️</button>
-                            <button class="btn btn-sm btn-delete" onclick="window._deletePee('${p.id}')">🗑️</button>
-                        </div>
-                    </li>`).join('');
-            }
-
-            window._editPee = function(id) {
-                const data = loadData(); const item = data.pees.find(p => p.id === id); if (!item) return;
-                const timeVal = new Date(item.time).toTimeString().slice(0, 5);
-                const el = document.querySelector(`#peeList [data-id="${id}"]`); if (!el) return;
-                el.innerHTML = `
-                    <div class="edit-form" style="width:100%">
-                        <div class="form-group"><label>Ώρα</label><input type="time" class="edit-time" value="${timeVal}"></div>
-                        <div class="edit-actions">
-                            <button class="btn btn-sm btn-primary" onclick="window._savePeeEdit('${id}')">💾 Αποθήκευση</button>
-                            <button class="btn btn-sm btn-cancel" onclick="window._cancelEdit('pee')">❌ Άκυρο</button>
-                        </div></div>`;
-            };
-            window._savePeeEdit = function(id) {
-                const data = loadData(); const item = data.pees.find(p => p.id === id); if (!item) return;
-                const el = document.querySelector(`#peeList [data-id="${id}"]`);
-                const [h, m] = el.querySelector('.edit-time').value.split(':');
-                const d = new Date(item.time);
-                item.time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), +h, +m).toISOString();
-                data.pees.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data); showToast('✅ Τσίσα ενημερώθηκε!'); refreshPees();
-            };
-            window._deletePee = function(id) {
-                if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
-                const data = loadData(); data.pees = data.pees.filter(p => p.id !== id);
-                saveData(data); showToast('🗑️ Διαγράφηκε!'); refreshPees();
-            };
-            function refreshPees() { renderPees(); }
-
-            // ═══════════════════════════════════════
-            // ΚΑΚΑ
-            // ═══════════════════════════════════════
-            poopForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const data = loadData(); const now = new Date();
-                const [h, m] = poopTime.value.split(':');
-                const ts = new Date(now.getFullYear(), now.getMonth(), now.getDate(), +h, +m).toISOString();
-                data.poops.push({ id: generateId(), time: ts, createdAt: new Date().toISOString() });
-                data.poops.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data); poopForm.reset(); setDefaultTime(poopTime);
-                showToast('💩 Κακά καταγράφηκε!'); refreshPoops();
-            });
-
-            function renderPoops() {
-                const data = loadData(); const poops = data.poops; const today = getTodayStr();
-                const todayP = poops.filter(p => p.time.startsWith(today));
-                poopStats.innerHTML = `
-                    <div class="stat-chip">📅 Σήμερα: <span class="stat-num">${todayP.length}</span> κακά</div>
-                    <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${poops.length}</span> καταχωρήσεις</div>`;
-                if (!poops.length) {
-                    poopList.innerHTML = `<div class="empty-state"><span class="empty-icon">💩</span><p>Δεν υπάρχουν καταχωρήσεις ακόμα</p></div>`;
-                    return;
-                }
-                poopList.innerHTML = poops.map(p => `
-                    <li class="record-item" data-id="${p.id}">
-                        <div class="record-info">
-                            <div class="record-main"><span class="record-badge badge-poop">💩 Κακά</span></div>
-                            <div class="record-sub">${formatDate(p.time)}</div>
-                        </div>
-                        <div class="record-actions">
-                            <button class="btn btn-sm btn-edit" onclick="window._editPoop('${p.id}')">✏️</button>
-                            <button class="btn btn-sm btn-delete" onclick="window._deletePoop('${p.id}')">🗑️</button>
-                        </div>
-                    </li>`).join('');
-            }
-
-            window._editPoop = function(id) {
-                const data = loadData(); const item = data.poops.find(p => p.id === id); if (!item) return;
-                const timeVal = new Date(item.time).toTimeString().slice(0, 5);
-                const el = document.querySelector(`#poopList [data-id="${id}"]`); if (!el) return;
-                el.innerHTML = `
-                    <div class="edit-form" style="width:100%">
-                        <div class="form-group"><label>Ώρα</label><input type="time" class="edit-time" value="${timeVal}"></div>
-                        <div class="edit-actions">
-                            <button class="btn btn-sm btn-primary" onclick="window._savePoopEdit('${id}')">💾 Αποθήκευση</button>
-                            <button class="btn btn-sm btn-cancel" onclick="window._cancelEdit('poop')">❌ Άκυρο</button>
-                        </div></div>`;
-            };
-            window._savePoopEdit = function(id) {
-                const data = loadData(); const item = data.poops.find(p => p.id === id); if (!item) return;
-                const el = document.querySelector(`#poopList [data-id="${id}"]`);
-                const [h, m] = el.querySelector('.edit-time').value.split(':');
-                const d = new Date(item.time);
-                item.time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), +h, +m).toISOString();
-                data.poops.sort((a, b) => new Date(b.time) - new Date(a.time));
-                saveData(data); showToast('✅ Κακά ενημερώθηκε!'); refreshPoops();
-            };
-            window._deletePoop = function(id) {
-                if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
-                const data = loadData(); data.poops = data.poops.filter(p => p.id !== id);
-                saveData(data); showToast('🗑️ Διαγράφηκε!'); refreshPoops();
-            };
-            function refreshPoops() { renderPoops(); }
-
-            // ═══════════════════════════════════════
-            // ΥΠΝΟΣ
-            // ═══════════════════════════════════════
-            sleepForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const data = loadData(); const now = new Date();
-                const [h, m] = sleepStartTime.value.split(':');
-                const ts = new Date(now.getFullYear(), now.getMonth(), now.getDate(), +h, +m).toISOString();
-                data.sleeps.push({ id: generateId(), startTime: ts, duration: +sleepDuration.value, createdAt: new Date().toISOString() });
-                data.sleeps.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
-                saveData(data); sleepForm.reset(); setDefaultTime(sleepStartTime); sleepDuration.value = 60;
-                showToast('😴 Ύπνος καταγράφηκε!'); refreshSleeps();
-            });
-
-            function renderSleeps() {
-                const data = loadData(); const sleeps = data.sleeps; const today = getTodayStr();
-                const todayS = sleeps.filter(s => s.startTime.startsWith(today));
-                const total = todayS.reduce((s, sl) => s + sl.duration, 0);
-                sleepStats.innerHTML = `
-                    <div class="stat-chip">📅 Σήμερα: <span class="stat-num">${todayS.length}</span> ύπνοι</div>
-                    <div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">${formatDuration(total)}</span></div>`;
-                if (!sleeps.length) {
-                    sleepList.innerHTML = `<div class="empty-state"><span class="empty-icon">😴</span><p>Δεν υπάρχουν καταχωρήσεις ακόμα</p></div>`;
-                    return;
-                }
-                sleepList.innerHTML = sleeps.map(s => {
-                    const startDate = new Date(s.startTime);
-                    const endDate = new Date(startDate.getTime() + s.duration * 60000);
-                    const endTime = endDate.toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
-                    return `
-                    <li class="record-item" data-id="${s.id}">
-                        <div class="record-info">
-                            <div class="record-main">
-                                <span class="record-badge badge-sleep">😴 Ύπνος</span> ⏱️ ${formatDuration(s.duration)}
-                            </div>
-                            <div class="record-sub">${formatDate(s.startTime)} → ${endTime}</div>
-                        </div>
-                        <div class="record-actions">
-                            <button class="btn btn-sm btn-edit" onclick="window._editSleep('${s.id}')">✏️</button>
-                            <button class="btn btn-sm btn-delete" onclick="window._deleteSleep('${s.id}')">🗑️</button>
-                        </div>
-                    </li>`;
-                }).join('');
-            }
-
-            window._editSleep = function(id) {
-                const data = loadData(); const item = data.sleeps.find(s => s.id === id); if (!item) return;
-                const timeVal = new Date(item.startTime).toTimeString().slice(0, 5);
-                const el = document.querySelector(`#sleepList [data-id="${id}"]`); if (!el) return;
-                el.innerHTML = `
-                    <div class="edit-form" style="width:100%">
-                        <div class="form-row">
-                            <div class="form-group"><label>Ώρα έναρξης</label><input type="time" class="edit-time" value="${timeVal}"></div>
-                            <div class="form-group"><label>Διάρκεια (λεπτά)</label><input type="number" class="edit-duration" value="${item.duration}" min="1" max="720"></div>
-                        </div>
-                        <div class="edit-actions">
-                            <button class="btn btn-sm btn-primary" onclick="window._saveSleepEdit('${id}')">💾 Αποθήκευση</button>
-                            <button class="btn btn-sm btn-cancel" onclick="window._cancelEdit('sleep')">❌ Άκυρο</button>
-                        </div></div>`;
-            };
-            window._saveSleepEdit = function(id) {
-                const data = loadData(); const item = data.sleeps.find(s => s.id === id); if (!item) return;
-                const el = document.querySelector(`#sleepList [data-id="${id}"]`);
-                const [h, m] = el.querySelector('.edit-time').value.split(':');
-                const d = new Date(item.startTime);
-                item.startTime = new Date(d.getFullYear(), d.getMonth(), d.getDate(), +h, +m).toISOString();
-                item.duration = +el.querySelector('.edit-duration').value;
-                data.sleeps.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
-                saveData(data); showToast('✅ Ύπνος ενημερώθηκε!'); refreshSleeps();
-            };
-            window._deleteSleep = function(id) {
-                if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
-                const data = loadData(); data.sleeps = data.sleeps.filter(s => s.id !== id);
-                saveData(data); showToast('🗑️ Διαγράφηκε!'); refreshSleeps();
-            };
-            function refreshSleeps() { renderSleeps(); }
-
-            // ═══════════════════════════════════════════════
-            // 📋 ΝΕΑ ΚΑΡΤΕΛΑ: ΠΛΗΡΕΣ ΙΣΤΟΡΙΚΟ
-            // ═══════════════════════════════════════════════
-            historyDateFilter.addEventListener('change', () => refreshHistory());
-
-            window._clearHistoryFilter = function() {
-                historyDateFilter.value = '';
-                refreshHistory();
-            };
-
-            function refreshHistory() {
-                const data = loadData();
-                const filterDate = historyDateFilter.value; // 'YYYY-MM-DD' ή κενό
-
-                // Merge όλες τις καταχωρήσεις σε ένα array με type
-                let all = [];
-                data.feedings.forEach(f => all.push({ ...f, type: 'feeding' }));
-                data.pees.forEach(p => all.push({ ...p, type: 'pee' }));
-                data.poops.forEach(p => all.push({ ...p, type: 'poop' }));
-                data.sleeps.forEach(s => all.push({ ...s, type: 'sleep' }));
-
-                // Φιλτράρισμα ανά ημερομηνία
-                if (filterDate) {
-                    all = all.filter(item => {
-                        const timeField = item.type === 'sleep' ? item.startTime : item.time;
-                        return timeField.startsWith(filterDate);
-                    });
-                }
-
-                // Ταξινόμηση: πιο πρόσφατα πρώτα
-                all.sort((a, b) => {
-                    const ta = a.type === 'sleep' ? a.startTime : a.time;
-                    const tb = b.type === 'sleep' ? b.startTime : b.time;
-                    return new Date(tb) - new Date(ta);
-                });
-
-                // Stats
-                const feedC = all.filter(i => i.type === 'feeding').length;
-                const peeC = all.filter(i => i.type === 'pee').length;
-                const poopC = all.filter(i => i.type === 'poop').length;
-                const sleepC = all.filter(i => i.type === 'sleep').length;
-                historyStats.innerHTML = `
-                    <div class="stat-chip">🍼 <span class="stat-num">${feedC}</span> θηλασμοί</div>
-                    <div class="stat-chip">💧 <span class="stat-num">${peeC}</span> τσίσες</div>
-                    <div class="stat-chip">💩 <span class="stat-num">${poopC}</span> κακά</div>
-                    <div class="stat-chip">😴 <span class="stat-num">${sleepC}</span> ύπνοι</div>
-                    <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${all.length}</span></div>
-                `;
-
-                if (all.length === 0) {
-                    historyList.innerHTML = `<div class="empty-state"><span class="empty-icon">📋</span><p>Δεν υπάρχουν καταχωρήσεις${filterDate ? ' για αυτή την ημερομηνία' : ' ακόμα'}</p></div>`;
-                    return;
-                }
-
-                // Ομαδοποίηση ανά ημερομηνία
-                const groups = {};
-                all.forEach(item => {
-                    const timeField = item.type === 'sleep' ? item.startTime : item.time;
-                    const dateKey = timeField.split('T')[0]; // 'YYYY-MM-DD'
-                    if (!groups[dateKey]) groups[dateKey] = [];
-                    groups[dateKey].push(item);
-                });
-
-                // Ταξινόμηση groups: πιο πρόσφατη ημερομηνία πρώτα
-                const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
-
-                let html = '';
-                sortedDates.forEach(dateKey => {
-                    const items = groups[dateKey];
-                    html += `<div class="date-group-header"><span class="dg-icon">📅</span> ${formatDateShort(dateKey)} (${items.length} καταχωρήσεις)</div>`;
-                    html += `<ul class="records-list" style="margin-bottom:12px;">`;
-                    items.forEach(item => {
-                        html += renderHistoryItem(item);
-                    });
-                    html += `</ul>`;
-                });
-                historyList.innerHTML = html;
-
-                // Επανασύνδεση events για edit/delete στα history items
-                bindHistoryActions();
-            }
-
-            function renderHistoryItem(item) {
-                const id = item.id;
-                const timeField = item.type === 'sleep' ? item.startTime : item.time;
-                const timeOnly = new Date(timeField).toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
-
-                let badgeHtml = '';
-                let detailHtml = '';
-                if (item.type === 'feeding') {
-                    badgeHtml = `<span class="record-badge ${item.side==='left'?'badge-left':'badge-right'}">🍼 ${item.side==='left'?'Αριστερό':'Δεξί'}</span>`;
-                    detailHtml = `⏱️ ${formatDuration(item.duration)}`;
-                } else if (item.type === 'pee') {
-                    badgeHtml = `<span class="record-badge badge-pee">💧 Τσίσα</span>`;
-                    detailHtml = ``;
-                } else if (item.type === 'poop') {
-                    badgeHtml = `<span class="record-badge badge-poop">💩 Κακά</span>`;
-                    detailHtml = ``;
-                } else if (item.type === 'sleep') {
-                    badgeHtml = `<span class="record-badge badge-sleep">😴 Ύπνος</span>`;
-                    const endDate = new Date(new Date(item.startTime).getTime() + item.duration * 60000);
-                    const endTime = endDate.toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
-                    detailHtml = `⏱️ ${formatDuration(item.duration)} → ${endTime}`;
-                }
-
-                return `
-                <li class="record-item" data-id="${id}" data-type="${item.type}">
+            feedingList.innerHTML = feedings.map(f => `
+                <li class="record-item" data-id="${f.id}">
                     <div class="record-info">
-                        <div class="record-main">${badgeHtml} ${detailHtml}</div>
-                        <div class="record-sub">🕐 ${timeOnly}</div>
+                        <div class="record-main">
+                            <span class="badge ${f.side==='left'?'badge-left':'badge-right'}">${f.side==='left'?'Αριστερό':'Δεξί'}</span>
+                            ⏱️ ${fmtDuration(f.duration)}
+                        </div>
+                        <div class="record-sub">${fmtDate(f.time)}</div>
                     </div>
                     <div class="record-actions">
-                        <button class="btn btn-sm btn-edit" data-action="edit" data-id="${id}" data-type="${item.type}">✏️</button>
-                        <button class="btn btn-sm btn-delete" data-action="delete" data-id="${id}" data-type="${item.type}">🗑️</button>
+                        <button class="btn btn-sm btn-edit" data-act="edit-feeding" data-id="${f.id}">✏️</button>
+                        <button class="btn btn-sm btn-delete" data-act="del-feeding" data-id="${f.id}">🗑️</button>
+                    </div>
+                </li>`).join('');
+            bindActions(feedingList);
+        }
+
+        // ═══════════ ΤΣΙΣΑ ═══════════
+        peeForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const data = loadData();
+            data.pees.push({
+                id: genId(),
+                time: makeTimestamp(getSelDate(), peeTime.value),
+                createdAt: new Date().toISOString()
+            });
+            data.pees.sort((a,b) => new Date(b.time) - new Date(a.time));
+            saveData(data); peeForm.reset(); setNow(peeTime);
+            showToast('💧 Τσίσα καταγράφηκε!'); refreshPees();
+        });
+
+        function renderPees() {
+            const data = loadData(), pees = data.pees, sel = getSelDate();
+            const selP = pees.filter(p => p.time.startsWith(sel));
+            peeStats.innerHTML = `
+                <div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">${selP.length}</span> τσίσες</div>
+                <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${pees.length}</span> καταχωρήσεις</div>`;
+            if (!pees.length) {
+                peeList.innerHTML = '<div class="empty-state"><span class="empty-icon">💧</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
+                return;
+            }
+            peeList.innerHTML = pees.map(p => `
+                <li class="record-item" data-id="${p.id}">
+                    <div class="record-info">
+                        <div class="record-main"><span class="badge badge-pee">💧 Τσίσα</span></div>
+                        <div class="record-sub">${fmtDate(p.time)}</div>
+                    </div>
+                    <div class="record-actions">
+                        <button class="btn btn-sm btn-edit" data-act="edit-pee" data-id="${p.id}">✏️</button>
+                        <button class="btn btn-sm btn-delete" data-act="del-pee" data-id="${p.id}">🗑️</button>
+                    </div>
+                </li>`).join('');
+            bindActions(peeList);
+        }
+
+        // ═══════════ ΚΑΚΑ ═══════════
+        poopForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const data = loadData();
+            data.poops.push({
+                id: genId(),
+                time: makeTimestamp(getSelDate(), poopTime.value),
+                createdAt: new Date().toISOString()
+            });
+            data.poops.sort((a,b) => new Date(b.time) - new Date(a.time));
+            saveData(data); poopForm.reset(); setNow(poopTime);
+            showToast('💩 Κακά καταγράφηκε!'); refreshPoops();
+        });
+
+        function renderPoops() {
+            const data = loadData(), poops = data.poops, sel = getSelDate();
+            const selP = poops.filter(p => p.time.startsWith(sel));
+            poopStats.innerHTML = `
+                <div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">${selP.length}</span> κακά</div>
+                <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${poops.length}</span> καταχωρήσεις</div>`;
+            if (!poops.length) {
+                poopList.innerHTML = '<div class="empty-state"><span class="empty-icon">💩</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
+                return;
+            }
+            poopList.innerHTML = poops.map(p => `
+                <li class="record-item" data-id="${p.id}">
+                    <div class="record-info">
+                        <div class="record-main"><span class="badge badge-poop">💩 Κακά</span></div>
+                        <div class="record-sub">${fmtDate(p.time)}</div>
+                    </div>
+                    <div class="record-actions">
+                        <button class="btn btn-sm btn-edit" data-act="edit-poop" data-id="${p.id}">✏️</button>
+                        <button class="btn btn-sm btn-delete" data-act="del-poop" data-id="${p.id}">🗑️</button>
+                    </div>
+                </li>`).join('');
+            bindActions(poopList);
+        }
+
+        // ═══════════ ΥΠΝΟΣ ═══════════
+        sleepForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const data = loadData();
+            data.sleeps.push({
+                id: genId(),
+                startTime: makeTimestamp(getSelDate(), sleepStartTime.value),
+                duration: +sleepDuration.value,
+                createdAt: new Date().toISOString()
+            });
+            data.sleeps.sort((a,b) => new Date(b.startTime) - new Date(a.startTime));
+            saveData(data); sleepForm.reset(); setNow(sleepStartTime); sleepDuration.value = 60;
+            showToast('😴 Ύπνος καταγράφηκε!'); refreshSleeps();
+        });
+
+        function renderSleeps() {
+            const data = loadData(), sleeps = data.sleeps, sel = getSelDate();
+            const selS = sleeps.filter(s => s.startTime.startsWith(sel));
+            const total = selS.reduce((s,sl) => s+sl.duration, 0);
+            sleepStats.innerHTML = `
+                <div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">${selS.length}</span> ύπνοι</div>
+                <div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">${fmtDuration(total)}</span></div>`;
+            if (!sleeps.length) {
+                sleepList.innerHTML = '<div class="empty-state"><span class="empty-icon">😴</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
+                return;
+            }
+            sleepList.innerHTML = sleeps.map(s => {
+                const sd = new Date(s.startTime);
+                const ed = new Date(sd.getTime() + s.duration*60000);
+                const et = ed.toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
+                return `
+                <li class="record-item" data-id="${s.id}">
+                    <div class="record-info">
+                        <div class="record-main">
+                            <span class="badge badge-sleep">😴 Ύπνος</span> ⏱️ ${fmtDuration(s.duration)}
+                        </div>
+                        <div class="record-sub">${fmtDate(s.startTime)} → ${et}</div>
+                    </div>
+                    <div class="record-actions">
+                        <button class="btn btn-sm btn-edit" data-act="edit-sleep" data-id="${s.id}">✏️</button>
+                        <button class="btn btn-sm btn-delete" data-act="del-sleep" data-id="${s.id}">🗑️</button>
                     </div>
                 </li>`;
-            }
+            }).join('');
+            bindActions(sleepList);
+        }
 
-            function bindHistoryActions() {
-                // Edit buttons
-                historyList.querySelectorAll('[data-action="edit"]').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const type = this.dataset.type;
-                        if (type === 'feeding') window._editFeeding(id);
-                        else if (type === 'pee') window._editPee(id);
-                        else if (type === 'poop') window._editPoop(id);
-                        else if (type === 'sleep') window._editSleep(id);
-                        // Μετά το save, θα χρειαστεί refresh του history
-                        // Θα το χειριστούμε μέσω του _saveEdit που καλεί refreshHistory
-                    });
+        // ═══════════ EDIT / DELETE HANDLERS ═══════════
+        function bindActions(container) {
+            container.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const act = this.dataset.act;
+                    const id = this.dataset.id;
+                    if (act.startsWith('edit-')) openEdit(act.replace('edit-',''), id);
+                    if (act.startsWith('del-')) deleteItem(act.replace('del-',''), id);
                 });
-                // Delete buttons
-                historyList.querySelectorAll('[data-action="delete"]').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const type = this.dataset.type;
-                        if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
-                        const data = loadData();
-                        if (type === 'feeding') data.feedings = data.feedings.filter(f => f.id !== id);
-                        else if (type === 'pee') data.pees = data.pees.filter(p => p.id !== id);
-                        else if (type === 'poop') data.poops = data.poops.filter(p => p.id !== id);
-                        else if (type === 'sleep') data.sleeps = data.sleeps.filter(s => s.id !== id);
-                        saveData(data);
-                        showToast('🗑️ Διαγράφηκε!');
-                        refreshHistory();
-                        refreshAll();
-                    });
+            });
+        }
+
+        function openEdit(type, id) {
+            const data = loadData();
+            let item, listEl;
+            if (type === 'feeding') { item = data.feedings.find(f => f.id===id); listEl = feedingList; }
+            else if (type === 'pee') { item = data.pees.find(p => p.id===id); listEl = peeList; }
+            else if (type === 'poop') { item = data.poops.find(p => p.id===id); listEl = poopList; }
+            else if (type === 'sleep') { item = data.sleeps.find(s => s.id===id); listEl = sleepList; }
+            if (!item) return;
+
+            const timeField = type==='sleep' ? item.startTime : item.time;
+            const d = new Date(timeField);
+            const dateVal = d.toISOString().split('T')[0];
+            const timeVal = d.toTimeString().slice(0,5);
+
+            const el = listEl.querySelector('[data-id="'+id+'"]');
+            if (!el) return;
+
+            let html = '<div class="edit-form" style="width:100%">';
+
+            if (type === 'feeding') {
+                html += `
+                    <div class="form-group"><label>Στήθος</label>
+                        <select class="edit-side">
+                            <option value="left" ${item.side==='left'?'selected':''}>🤱 Αριστερό</option>
+                            <option value="right" ${item.side==='right'?'selected':''}>🤱 Δεξί</option>
+                        </select></div>`;
+            }
+            html += `
+                <div class="form-row">
+                    <div class="form-group"><label>Ημερομηνία</label><input type="date" class="edit-date" value="${dateVal}"></div>
+                    <div class="form-group"><label>Ώρα</label><input type="time" class="edit-time" value="${timeVal}"></div>
+                </div>`;
+            if (type === 'feeding' || type === 'sleep') {
+                html += `
+                <div class="form-group"><label>Διάρκεια (λεπτά)</label>
+                    <input type="number" class="edit-duration" value="${type==='feeding'?item.duration:item.duration}" min="1" max="${type==='sleep'?720:120}">
+                </div>`;
+            }
+            html += `
+                <div class="edit-actions">
+                    <button class="btn btn-sm btn-primary" data-act="save-${type}" data-id="${id}">💾 Αποθήκευση</button>
+                    <button class="btn btn-sm btn-cancel" data-act="cancel-${type}">❌ Άκυρο</button>
+                </div></div>`;
+            el.innerHTML = html;
+            bindActions(el);
+        }
+
+        function saveEdit(type, id) {
+            const data = loadData();
+            let item;
+            if (type==='feeding') item = data.feedings.find(f => f.id===id);
+            else if (type==='pee') item = data.pees.find(p => p.id===id);
+            else if (type==='poop') item = data.poops.find(p => p.id===id);
+            else if (type==='sleep') item = data.sleeps.find(s => s.id===id);
+            if (!item) return;
+
+            const listEl = type==='feeding'?feedingList : type==='pee'?peeList : type==='poop'?poopList : sleepList;
+            const el = listEl.querySelector('[data-id="'+id+'"]');
+
+            const dateVal = el.querySelector('.edit-date').value;
+            const timeVal = el.querySelector('.edit-time').value;
+            const [y,m,d] = dateVal.split('-').map(Number);
+            const [h,mi] = timeVal.split(':');
+            const newTime = new Date(y, m-1, d, +h, +mi).toISOString();
+
+            if (type==='feeding') {
+                item.side = el.querySelector('.edit-side').value;
+                item.duration = +el.querySelector('.edit-duration').value;
+                item.time = newTime;
+            } else if (type==='sleep') {
+                item.startTime = newTime;
+                item.duration = +el.querySelector('.edit-duration').value;
+            } else {
+                item.time = newTime;
+            }
+
+            if (type==='feeding') data.feedings.sort((a,b) => new Date(b.time)-new Date(a.time));
+            else if (type==='pee') data.pees.sort((a,b) => new Date(b.time)-new Date(a.time));
+            else if (type==='poop') data.poops.sort((a,b) => new Date(b.time)-new Date(a.time));
+            else data.sleeps.sort((a,b) => new Date(b.startTime)-new Date(a.startTime));
+
+            saveData(data);
+            showToast('✅ Η καταχώρηση ενημερώθηκε!');
+            refreshAll();
+        }
+
+        function deleteItem(type, id) {
+            if (!confirm('Διαγραφή αυτής της καταχώρησης;')) return;
+            const data = loadData();
+            if (type==='feeding') data.feedings = data.feedings.filter(f => f.id!==id);
+            else if (type==='pee') data.pees = data.pees.filter(p => p.id!==id);
+            else if (type==='poop') data.poops = data.poops.filter(p => p.id!==id);
+            else if (type==='sleep') data.sleeps = data.sleeps.filter(s => s.id!==id);
+            saveData(data);
+            showToast('🗑️ Διαγράφηκε!');
+            refreshAll();
+        }
+
+        function cancelEdit(type) {
+            if (type==='feeding') refreshFeedings();
+            else if (type==='pee') refreshPees();
+            else if (type==='poop') refreshPoops();
+            else if (type==='sleep') refreshSleeps();
+            refreshHistory();
+        }
+
+        // Override bindActions to also handle save/cancel buttons
+        const origBindActions = bindActions;
+        bindActions = function(container) {
+            container.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const act = this.dataset.act;
+                    const id = this.dataset.id;
+                    if (act.startsWith('save-')) saveEdit(act.replace('save-',''), id);
+                    else if (act.startsWith('cancel-')) cancelEdit(act.replace('cancel-',''));
+                    else if (act.startsWith('edit-')) openEdit(act.replace('edit-',''), id);
+                    else if (act.startsWith('del-')) deleteItem(act.replace('del-',''), id);
+                });
+            });
+        };
+
+        // ═══════════ ΙΣΤΟΡΙΚΟ ═══════════
+        historyDateFilter.addEventListener('change', refreshHistory);
+        clearHistoryFilterBtn.addEventListener('click', () => {
+            historyDateFilter.value = '';
+            refreshHistory();
+        });
+
+        function refreshHistory() {
+            const data = loadData();
+            const filterDate = historyDateFilter.value;
+
+            let all = [];
+            data.feedings.forEach(f => all.push({...f, type:'feeding'}));
+            data.pees.forEach(p => all.push({...p, type:'pee'}));
+            data.poops.forEach(p => all.push({...p, type:'poop'}));
+            data.sleeps.forEach(s => all.push({...s, type:'sleep'}));
+
+            if (filterDate) {
+                all = all.filter(item => {
+                    const tf = item.type==='sleep' ? item.startTime : item.time;
+                    return tf.startsWith(filterDate);
                 });
             }
 
-            // Override των _saveEdit functions για να κάνουν και refresh του history
-            const origSaveFeeding = window._saveFeedingEdit;
-            const origSavePee = window._savePeeEdit;
-            const origSavePoop = window._savePoopEdit;
-            const origSaveSleep = window._saveSleepEdit;
+            all.sort((a,b) => {
+                const ta = a.type==='sleep' ? a.startTime : a.time;
+                const tb = b.type==='sleep' ? b.startTime : b.time;
+                return new Date(tb) - new Date(ta);
+            });
 
-            // ═══════════════════════════════════════
-            // Cancel Edit
-            // ═══════════════════════════════════════
-            window._cancelEdit = function(type) {
-                if (type === 'feeding') refreshFeedings();
-                else if (type === 'pee') refreshPees();
-                else if (type === 'poop') refreshPoops();
-                else if (type === 'sleep') refreshSleeps();
-                refreshHistory();
-            };
+            const fc = all.filter(i => i.type==='feeding').length;
+            const pc = all.filter(i => i.type==='pee').length;
+            const ppc = all.filter(i => i.type==='poop').length;
+            const sc = all.filter(i => i.type==='sleep').length;
+            historyStats.innerHTML = `
+                <div class="stat-chip">🍼 <span class="stat-num">${fc}</span> θηλασμοί</div>
+                <div class="stat-chip">💧 <span class="stat-num">${pc}</span> τσίσες</div>
+                <div class="stat-chip">💩 <span class="stat-num">${ppc}</span> κακά</div>
+                <div class="stat-chip">😴 <span class="stat-num">${sc}</span> ύπνοι</div>
+                <div class="stat-chip">📊 Σύνολο: <span class="stat-num">${all.length}</span></div>`;
 
-            // ═══════════════════════════════════════
-            // Refresh All
-            // ═══════════════════════════════════════
-            function refreshAll() {
-                refreshFeedings();
-                refreshPees();
-                refreshPoops();
-                refreshSleeps();
-                refreshHistory();
+            if (all.length === 0) {
+                historyList.innerHTML = '<div class="empty-state"><span class="empty-icon">📋</span><p>'+(filterDate?'Δεν υπάρχουν καταχωρήσεις για αυτή την ημερομηνία':'Δεν υπάρχουν καταχωρήσεις')+'</p></div>';
+                return;
             }
 
-            // ═══════════════════════════════════════
-            // Date Display (βελτιωμένο)
-            // ═══════════════════════════════════════
-            function updateDateDisplay() {
-                const now = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                dateDisplay.textContent = now.toLocaleDateString('el-GR', options);
-            }
+            // Group by date
+            const groups = {};
+            all.forEach(item => {
+                const tf = item.type==='sleep' ? item.startTime : item.time;
+                const dk = tf.split('T')[0];
+                if (!groups[dk]) groups[dk] = [];
+                groups[dk].push(item);
+            });
+            const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
 
-            // ═══════════════════════════════════════
-            // Init
-            // ═══════════════════════════════════════
-            function init() {
-                updateDateDisplay();
-                setDefaultTime(feedingTime);
-                setDefaultTime(peeTime);
-                setDefaultTime(poopTime);
-                setDefaultTime(sleepStartTime);
-                // Set history date filter to today by default
-                historyDateFilter.value = getTodayStr();
-                refreshAll();
-            }
+            let html = '';
+            sortedDates.forEach(dk => {
+                const items = groups[dk];
+                html += '<div class="date-group-header">'+fmtDateShort(dk)+' ('+items.length+' καταχωρήσεις)</div>';
+                html += '<ul class="records-list" style="margin-bottom:12px;">';
+                items.forEach(item => {
+                    const tf = item.type==='sleep' ? item.startTime : item.time;
+                    const tOnly = new Date(tf).toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
+                    let badge = '', detail = '';
+                    if (item.type==='feeding') {
+                        badge = '<span class="badge '+(item.side==='left'?'badge-left':'badge-right')+'">🍼 '+(item.side==='left'?'Αριστερό':'Δεξί')+'</span>';
+                        detail = '⏱️ '+fmtDuration(item.duration);
+                    } else if (item.type==='pee') {
+                        badge = '<span class="badge badge-pee">💧 Τσίσα</span>';
+                    } else if (item.type==='poop') {
+                        badge = '<span class="badge badge-poop">💩 Κακά</span>';
+                    } else if (item.type==='sleep') {
+                        badge = '<span class="badge badge-sleep">😴 Ύπνος</span>';
+                        const ed = new Date(new Date(item.startTime).getTime() + item.duration*60000);
+                        detail = '⏱️ '+fmtDuration(item.duration)+' → '+ed.toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
+                    }
+                    html += `
+                    <li class="record-item" data-id="${item.id}" data-type="${item.type}">
+                        <div class="record-info">
+                            <div class="record-main">${badge} ${detail}</div>
+                            <div class="record-sub">🕐 ${tOnly}</div>
+                        </div>
+                        <div class="record-actions">
+                            <button class="btn btn-sm btn-edit" data-act="edit-${item.type}" data-id="${item.id}">✏️</button>
+                            <button class="btn btn-sm btn-delete" data-act="del-${item.type}" data-id="${item.id}">🗑️</button>
+                        </div>
+                    </li>`;
+                });
+                html += '</ul>';
+            });
+            historyList.innerHTML = html;
+            bindActions(historyList);
+        }
 
-            init();
-            setInterval(updateDateDisplay, 60000);
+        // ═══════════ REFRESH ═══════════
+        function refreshFeedings() { renderFeedings(); }
+        function refreshPees() { renderPees(); }
+        function refreshPoops() { renderPoops(); }
+        function refreshSleeps() { renderSleeps(); }
+        function refreshAll() { refreshFeedings(); refreshPees(); refreshPoops(); refreshSleeps(); refreshHistory(); }
 
-            console.log('👶 Baby Tracker έτοιμο!');
-            console.log('📋 Καρτέλες: Θηλασμός 🍼 | Τσίσα 💧 | Κακά 💩 | Ύπνος 😴 | Ιστορικό 📋');
-            console.log('💾 Τα δεδομένα αποθηκεύονται στο localStorage.');
-        })();
+        // ═══════════ INIT ═══════════
+        selectedDateInput.addEventListener('change', refreshAll);
+
+        function init() {
+            selectedDateInput.value = getTodayStr();
+            setNow(feedingTime);
+            setNow(peeTime);
+            setNow(poopTime);
+            setNow(sleepStartTime);
+            historyDateFilter.value = getTodayStr();
+            refreshAll();
+        }
+
+        init();
+        console.log('👶 Baby Tracker έτοιμο! 🍼💧💩😴📋');
+    })();
     </script>
 </body>
 </html>
