@@ -1,709 +1,951 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Tracker - Καταγραφή Μωρού</title>
-    <style>
-        :root {
-            --bg: #fdf6f0;
-            --card: #ffffff;
-            --primary: #f59e8b;
-            --primary-dark: #e8786b;
-            --text: #4a3f3c;
-            --text-light: #8b7e78;
-            --border: #f0e4db;
-            --danger: #e88b8b;
-            --shadow: 0 2px 12px rgba(74,63,60,0.06);
-            --radius: 16px;
-            --radius-sm: 10px;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg); color: var(--text);
-            min-height: 100vh; padding-bottom: 80px;
-        }
-
-        /* HEADER */
-        .header {
-            background: linear-gradient(135deg, #f9c5b6 0%, #f7b5a5 40%, #f59e8b 100%);
-            padding: 18px 16px 22px; border-radius: 0 0 30px 30px;
-            text-align: center; color: white;
-            box-shadow: 0 4px 20px rgba(245,158,139,0.25);
-        }
-        .header-top { display:flex; align-items:center; justify-content:center; gap:8px; }
-        .header h1 { font-size:1.5rem; font-weight:700; letter-spacing:-0.3px; }
-        .baby-icon { font-size:2.4rem; }
-        .date-box {
-            display:inline-flex; align-items:center; gap:10px; margin-top:12px;
-            background:rgba(255,255,255,0.22); backdrop-filter:blur(4px);
-            padding:10px 20px; border-radius:50px;
-            border:1px solid rgba(255,255,255,0.35);
-            font-weight:600; font-size:1rem;
-        }
-        .date-box .date-icon { font-size:1.4rem; }
-        .date-box input[type="date"] {
-            background:transparent; border:none; color:white;
-            font-weight:600; font-size:1rem; font-family:inherit;
-            cursor:pointer; outline:none;
-            text-shadow:0 1px 2px rgba(0,0,0,0.08); padding:2px 0;
-        }
-        .date-box input[type="date"]::-webkit-calendar-picker-indicator {
-            filter:invert(1); cursor:pointer; opacity:0.8;
-        }
-
-        /* TABS */
-        .tabs {
-            display:flex; gap:6px; padding:16px 12px;
-            overflow-x:auto; scrollbar-width:none;
-            justify-content:center; flex-wrap:wrap;
-        }
-        .tabs::-webkit-scrollbar { display:none; }
-        .tab-btn {
-            flex-shrink:0; padding:10px 16px;
-            border:2px solid var(--border); border-radius:50px;
-            background:var(--card); cursor:pointer;
-            font-size:0.83rem; font-weight:600; color:var(--text-light);
-            transition:all 0.25s; white-space:nowrap;
-            display:flex; align-items:center; gap:5px;
-        }
-        .tab-btn.active {
-            background:var(--primary); color:white; border-color:var(--primary);
-            box-shadow:0 4px 14px rgba(245,158,139,0.35); transform:translateY(-1px);
-        }
-        .tab-btn:hover { border-color:var(--primary); color:var(--primary-dark); }
-        .tab-btn.active:hover { color:white; }
-        .tab-icon { font-size:1.1rem; }
-
-        /* CONTAINER / CARDS */
-        .container { max-width:520px; margin:0 auto; padding:0 12px; }
-        .section { display:none; }
-        .section.active { display:block; }
-        .card {
-            background:var(--card); border-radius:var(--radius);
-            padding:18px 16px; margin-bottom:12px;
-            box-shadow:var(--shadow); border:1px solid var(--border);
-            animation:popIn 0.3s ease-out;
-        }
-        .card h2 { font-size:1.05rem; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-        .card h2 .emoji { font-size:1.3rem; }
-
-        /* FORM */
-        .form-group { margin-bottom:12px; }
-        .form-group label {
-            display:block; font-size:0.78rem; font-weight:600;
-            color:var(--text-light); margin-bottom:5px;
-            text-transform:uppercase; letter-spacing:0.5px;
-        }
-        .form-row { display:flex; gap:10px; }
-        .form-row > * { flex:1; }
-        input, select {
-            width:100%; padding:11px 14px;
-            border:2px solid var(--border); border-radius:var(--radius-sm);
-            font-size:0.95rem; font-family:inherit;
-            background:#fefcfb; color:var(--text);
-            transition:border-color 0.2s; outline:none;
-        }
-        input:focus, select:focus {
-            border-color:var(--primary);
-            box-shadow:0 0 0 3px rgba(245,158,139,0.1);
-        }
-        select {
-            cursor:pointer; appearance:none; -webkit-appearance:none;
-            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238b7e78'/%3E%3C/svg%3E");
-            background-repeat:no-repeat; background-position:right 14px center;
-            padding-right:34px;
-        }
-
-        /* BUTTONS */
-        .btn {
-            padding:11px 22px; border:none; border-radius:50px;
-            cursor:pointer; font-size:0.9rem; font-weight:600;
-            font-family:inherit; transition:all 0.2s;
-            display:inline-flex; align-items:center; gap:6px; justify-content:center;
-        }
-        .btn-primary {
-            background:var(--primary); color:white; width:100%;
-            padding:13px; font-size:0.95rem;
-            box-shadow:0 4px 12px rgba(245,158,139,0.3);
-        }
-        .btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); }
-        .btn-sm { padding:6px 14px; font-size:0.78rem; border-radius:20px; }
-        .btn-edit { background:#fff3e0; color:#e8a040; }
-        .btn-edit:hover { background:#ffe8c0; }
-        .btn-delete { background:#ffeaea; color:var(--danger); }
-        .btn-delete:hover { background:#ffd4d4; }
-        .btn-cancel { background:#f0f0f0; color:#888; margin-top:6px; }
-        .btn-cancel:hover { background:#e4e4e4; }
-
-        /* RECORDS */
-        .records-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
-        .record-item {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:12px 14px; background:#fefcfb;
-            border-radius:var(--radius-sm); border:1px solid var(--border);
-            gap:10px; flex-wrap:wrap;
-        }
-        .record-info { flex:1; min-width:140px; }
-        .record-main { font-weight:600; font-size:0.9rem; }
-        .record-sub { font-size:0.75rem; color:var(--text-light); margin-top:2px; }
-        .record-actions { display:flex; gap:6px; }
-
-        /* BADGES */
-        .badge {
-            display:inline-block; padding:3px 10px; border-radius:20px;
-            font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
-        }
-        .badge-left { background:#ffe0f0; color:#c06080; }
-        .badge-right { background:#e0e8ff; color:#5070c0; }
-        .badge-pee { background:#e0f0ff; color:#5088c0; }
-        .badge-poop { background:#f0e8d8; color:#a08050; }
-        .badge-sleep { background:#e0f0e8; color:#508060; }
-
-        /* DATE GROUP */
-        .date-group-header {
-            display:flex; align-items:center; gap:8px;
-            padding:10px 0 6px; font-size:0.85rem; font-weight:700;
-            color:var(--primary-dark); border-bottom:2px solid var(--border);
-            margin-bottom:6px; margin-top:4px;
-        }
-        .date-group-header:first-child { margin-top:0; }
-
-        /* EMPTY / STATS / EDIT */
-        .empty-state { text-align:center; padding:32px 16px; color:var(--text-light); }
-        .empty-state .empty-icon { font-size:3rem; display:block; margin-bottom:10px; opacity:0.6; }
-        .empty-state p { font-size:0.9rem; }
-        .stats-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
-        .stat-chip {
-            background:#fefcfb; border:1px solid var(--border);
-            border-radius:20px; padding:8px 14px;
-            font-size:0.78rem; font-weight:600; color:var(--text);
-            display:flex; align-items:center; gap:5px;
-        }
-        .stat-chip .stat-num { color:var(--primary-dark); font-size:1rem; }
-        .edit-form {
-            background:#fffdf5; border:2px dashed #f0d58c;
-            border-radius:var(--radius-sm); padding:14px; margin-top:8px;
-        }
-        .edit-actions { display:flex; gap:8px; margin-top:10px; }
-        .history-filter { display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
-        .history-filter input[type="date"] { flex:1; min-width:140px; }
-
-        /* TOAST */
-        .toast {
-            position:fixed; bottom:30px; left:50%;
-            transform:translateX(-50%) translateY(100px);
-            background:#4a3f3c; color:white;
-            padding:12px 24px; border-radius:50px;
-            font-size:0.85rem; font-weight:600; z-index:999;
-            transition:transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
-            pointer-events:none;
-        }
-        .toast.show { transform:translateX(-50%) translateY(0); }
-
-        /* MODAL */
-        .modal-overlay {
-            position:fixed; inset:0; background:rgba(0,0,0,0.45);
-            z-index:1000; display:flex; align-items:center; justify-content:center;
-            animation:fadeIn 0.2s;
-        }
-        .modal-box {
-            background:white; border-radius:var(--radius); padding:24px 20px;
-            text-align:center; max-width:340px; width:90%;
-            box-shadow:0 8px 30px rgba(0,0,0,0.2);
-            animation:popIn 0.3s ease-out;
-        }
-        .modal-box .modal-icon { font-size:3rem; display:block; margin-bottom:12px; }
-        .modal-box .modal-text { font-size:1rem; font-weight:600; color:var(--text); margin-bottom:20px; line-height:1.4; }
-        .modal-box .modal-actions { display:flex; gap:10px; justify-content:center; }
-        .modal-box .btn-danger { background:var(--danger); color:white; }
-        .modal-box .btn-danger:hover { background:#d47070; }
-        .modal-box .btn-ghost { background:#f0f0f0; color:#666; }
-        .modal-box .btn-ghost:hover { background:#e4e4e4; }
-
-        @keyframes fadeIn {
-            from { opacity:0; }
-            to { opacity:1; }
-        }
-        @keyframes popIn {
-            from { transform:scale(0.85); opacity:0; }
-            to { transform:scale(1); opacity:1; }
-        }
-        @media (max-width:400px) {
-            .tabs { gap:3px; padding:12px 6px; }
-            .tab-btn { padding:7px 11px; font-size:0.73rem; }
-            .record-item { padding:10px; }
-            .form-row { flex-direction:column; gap:8px; }
-            .date-box { padding:8px 16px; font-size:0.88rem; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Baby Tracker - Παρακολούθηση Μωρού</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #e0f2ff 100%);
+    min-height: 100vh;
+    padding: 16px;
+    color: #333;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 {
+    text-align: center;
+    color: #d63384;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tab {
+    padding: 10px 16px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: #d63384;
+    color: white;
+    border-color: #d63384;
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: #555;
+  }
+  .form-group { margin-bottom: 12px; }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  input:focus, select:focus { outline: none; border-color: #d63384; }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; }
+  button {
+    padding: 12px 20px;
+    background: #d63384;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #b02a6d; }
+  button.secondary { background: #6c757d; }
+  button.secondary:hover { background: #545b62; }
+  button.danger { background: #dc3545; padding: 6px 10px; font-size: 12px; }
+  button.danger:hover { background: #b02a37; }
+  button.edit { background: #0d6efd; padding: 6px 10px; font-size: 12px; }
+  button.edit:hover { background: #0a58ca; }
+  .entry {
+    background: #f8f9fa;
+    border-left: 4px solid #d63384;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .entry-info { flex: 1; min-width: 200px; }
+  .entry-actions { display: flex; gap: 6px; }
+  .entry-title { font-weight: 700; color: #333; margin-bottom: 4px; }
+  .entry-detail { font-size: 13px; color: #666; }
+  .empty {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+    font-style: italic;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .badge-left { background: #cfe2ff; color: #084298; }
+  .badge-right { background: #f8d7da; color: #842029; }
+  .badge-pee { background: #fff3cd; color: #664d03; }
+  .badge-poo { background: #d4a373; color: #fff; }
+  .badge-sleep { background: #d1e7dd; color: #0f5132; }
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-buttons { display: flex; gap: 10px; margin-top: 12px; }
+  .modal-buttons button { flex: 1; }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat-box {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .stat-num { font-size: 24px; font-weight: 700; color: #d63384; }
+  .stat-label { font-size: 12px; color: #666; margin-top: 4px; }
+  .export-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .export-bar button { flex: 1; min-width: 120px; }
+  .day-header {
+    background: linear-gradient(90deg, #d63384, #f06595);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 14px 0 8px 0;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .day-header:first-child { margin-top: 0; }
+  .day-count {
+    background: rgba(255,255,255,0.3);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  .date-bar {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    border: 2px solid #d63384;
+  }
+  .date-bar label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #d63384;
+    white-space: nowrap;
+  }
+  .date-bar input[type="date"] {
+    flex: 1;
+    min-width: 140px;
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #f0c6dc;
+    border-radius: 8px;
+  }
+  .date-bar .date-display {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .date-bar button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .day-header-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .day-header-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+    background: rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+  .day-header-actions button:hover {
+    background: rgba(255,255,255,0.4);
+  }
+  .add-section-title {
+    background: #fff3f8;
+    border: 2px dashed #f06595;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    color: #d63384;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
+<div class="container">
+  <h1>👶 Baby Tracker</h1>
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-top">
-            <span class="baby-icon">👶</span>
-            <h1>Baby Tracker</h1>
+  <div class="date-bar">
+    <label>📅 Ενεργή ημέρα:</label>
+    <input type="date" id="active-date" onchange="onActiveDateChange()" />
+    <button onclick="setActiveToday()">Σήμερα</button>
+    <button class="secondary" onclick="shiftActiveDate(-1)">◀</button>
+    <button class="secondary" onclick="shiftActiveDate(1)">▶</button>
+    <div class="date-display" id="active-date-display"></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="feed">🍼 Θηλασμός</div>
+    <div class="tab" data-tab="diaper">💩 Πάνα</div>
+    <div class="tab" data-tab="sleep">😴 Ύπνος</div>
+    <div class="tab" data-tab="history">📋 Ιστορικό</div>
+  </div>
+
+  <!-- Θηλασμός -->
+  <div id="tab-feed" class="tab-content">
+    <div class="card">
+      <h2>Νέα καταγραφή θηλασμού</h2>
+      <div class="add-section-title" id="feed-day-info">Προσθήκη για: σήμερα</div>
+      <div class="form-group">
+        <label>Στήθος</label>
+        <select id="feed-side">
+          <option value="left">Αριστερό</option>
+          <option value="right">Δεξί</option>
+          <option value="both">Και τα δύο</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Ημερομηνία & Ώρα</label>
+          <input type="datetime-local" id="feed-time" />
         </div>
-        <div class="date-box">
-            <span class="date-icon">📅</span>
-            <input type="date" id="selectedDate" title="Ημερομηνία για νέες καταχωρήσεις">
+        <div class="form-group">
+          <label>Διάρκεια (λεπτά)</label>
+          <input type="number" id="feed-duration" min="0" placeholder="π.χ. 15" />
         </div>
+      </div>
+      <div class="form-group">
+        <label>Σημειώσεις (προαιρετικό)</label>
+        <input type="text" id="feed-notes" placeholder="..." />
+      </div>
+      <button onclick="addFeed()">➕ Καταγραφή</button>
+    </div>
+    <div class="card">
+      <h2 id="feed-list-title">🍼 Θηλασμοί ημέρας</h2>
+      <div id="feed-list"></div>
+    </div>
+  </div>
+
+  <!-- Πάνα -->
+  <div id="tab-diaper" class="tab-content" style="display:none">
+    <div class="card">
+      <h2>Νέα καταγραφή πάνας</h2>
+      <div class="add-section-title" id="diaper-day-info">Προσθήκη για: σήμερα</div>
+      <div class="form-group">
+        <label>Τύπος</label>
+        <select id="diaper-type">
+          <option value="pee">Τσίσα 💧</option>
+          <option value="poo">Κακά 💩</option>
+          <option value="both">Και τα δύο</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ημερομηνία & Ώρα</label>
+        <input type="datetime-local" id="diaper-time" />
+      </div>
+      <div class="form-group">
+        <label>Σημειώσεις</label>
+        <input type="text" id="diaper-notes" placeholder="χρώμα, υφή κλπ." />
+      </div>
+      <button onclick="addDiaper()">➕ Καταγραφή</button>
+    </div>
+    <div class="card">
+      <h2 id="diaper-list-title">💩 Πάνες ημέρας</h2>
+      <div id="diaper-list"></div>
+    </div>
+  </div>
+
+  <!-- Ύπνος -->
+  <div id="tab-sleep" class="tab-content" style="display:none">
+    <div class="card">
+      <h2>Νέα καταγραφή ύπνου</h2>
+      <div class="add-section-title" id="sleep-day-info">Προσθήκη για: σήμερα</div>
+      <div class="row">
+        <div class="form-group">
+          <label>Κοιμήθηκε</label>
+          <input type="datetime-local" id="sleep-start" />
+        </div>
+        <div class="form-group">
+          <label>Ξύπνησε</label>
+          <input type="datetime-local" id="sleep-end" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Σημειώσεις</label>
+        <input type="text" id="sleep-notes" placeholder="..." />
+      </div>
+      <button onclick="addSleep()">➕ Καταγραφή</button>
+    </div>
+    <div class="card">
+      <h2 id="sleep-list-title">😴 Ύπνοι ημέρας</h2>
+      <div id="sleep-list"></div>
+    </div>
+  </div>
+
+  <!-- Ιστορικό -->
+  <div id="tab-history" class="tab-content" style="display:none">
+    <div class="card">
+      <h2 id="stats-title">📊 Στατιστικά ημέρας</h2>
+      <div class="stats" id="stats"></div>
     </div>
 
-    <!-- TABS -->
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="feeding"><span class="tab-icon">🍼</span> Θηλασμός</button>
-        <button class="tab-btn" data-tab="pee"><span class="tab-icon">💧</span> Τσίσα</button>
-        <button class="tab-btn" data-tab="poop"><span class="tab-icon">💩</span> Κακά</button>
-        <button class="tab-btn" data-tab="sleep"><span class="tab-icon">😴</span> Ύπνος</button>
-        <button class="tab-btn" data-tab="history"><span class="tab-icon">📋</span> Ιστορικό</button>
+    <div class="card">
+      <h2>🔍 Φίλτρα</h2>
+      <div class="row">
+        <div class="form-group">
+          <label>Από</label>
+          <input type="date" id="filter-from" onchange="renderHistory()" />
+        </div>
+        <div class="form-group">
+          <label>Έως</label>
+          <input type="date" id="filter-to" onchange="renderHistory()" />
+        </div>
+        <div class="form-group">
+          <label>Τύπος</label>
+          <select id="filter-type" onchange="renderHistory()">
+            <option value="all">Όλα</option>
+            <option value="feeds">🍼 Θηλασμός</option>
+            <option value="diapers">💩 Πάνα</option>
+            <option value="sleeps">😴 Ύπνος</option>
+          </select>
+        </div>
+      </div>
+      <div class="export-bar" style="margin-top:8px">
+        <button class="secondary" onclick="setFilterToday()">📅 Σήμερα</button>
+        <button class="secondary" onclick="setFilterWeek()">📆 7 ημέρες</button>
+        <button class="secondary" onclick="setFilterAll()">🗂️ Όλα</button>
+      </div>
     </div>
 
-    <!-- MAIN -->
-    <div class="container">
-
-        <!-- ΘΗΛΑΣΜΟΣ -->
-        <div class="section active" id="section-feeding">
-            <div class="card">
-                <h2><span class="emoji">🍼</span> Καταγραφή Θηλασμού</h2>
-                <form id="feedingForm">
-                    <div class="form-group">
-                        <label>Στήθος</label>
-                        <select id="feedingSide" required>
-                            <option value="left">🤱 Αριστερό</option>
-                            <option value="right">🤱 Δεξί</option>
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Διάρκεια (λεπτά)</label>
-                            <input type="number" id="feedingDuration" min="1" max="120" value="15" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Ώρα</label>
-                            <input type="time" id="feedingTime" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
-                </form>
-            </div>
-            <div class="card">
-                <h2><span class="emoji">📋</span> Ιστορικό Θηλασμού</h2>
-                <div class="stats-bar" id="feedingStats"></div>
-                <ul class="records-list" id="feedingList"></ul>
-            </div>
-        </div>
-
-        <!-- ΤΣΙΣΑ -->
-        <div class="section" id="section-pee">
-            <div class="card">
-                <h2><span class="emoji">💧</span> Καταγραφή Τσίσας</h2>
-                <form id="peeForm">
-                    <div class="form-group">
-                        <label>Ώρα</label>
-                        <input type="time" id="peeTime" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
-                </form>
-            </div>
-            <div class="card">
-                <h2><span class="emoji">📋</span> Ιστορικό Τσίσας</h2>
-                <div class="stats-bar" id="peeStats"></div>
-                <ul class="records-list" id="peeList"></ul>
-            </div>
-        </div>
-
-        <!-- ΚΑΚΑ -->
-        <div class="section" id="section-poop">
-            <div class="card">
-                <h2><span class="emoji">💩</span> Καταγραφή Κακά</h2>
-                <form id="poopForm">
-                    <div class="form-group">
-                        <label>Ώρα</label>
-                        <input type="time" id="poopTime" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
-                </form>
-            </div>
-            <div class="card">
-                <h2><span class="emoji">📋</span> Ιστορικό Κακά</h2>
-                <div class="stats-bar" id="poopStats"></div>
-                <ul class="records-list" id="poopList"></ul>
-            </div>
-        </div>
-
-        <!-- ΥΠΝΟΣ -->
-        <div class="section" id="section-sleep">
-            <div class="card">
-                <h2><span class="emoji">😴</span> Καταγραφή Ύπνου</h2>
-                <form id="sleepForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Ώρα έναρξης</label>
-                            <input type="time" id="sleepStartTime" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Διάρκεια (λεπτά)</label>
-                            <input type="number" id="sleepDuration" min="1" max="720" value="60" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
-                </form>
-            </div>
-            <div class="card">
-                <h2><span class="emoji">📋</span> Ιστορικό Ύπνου</h2>
-                <div class="stats-bar" id="sleepStats"></div>
-                <ul class="records-list" id="sleepList"></ul>
-            </div>
-        </div>
-
-        <!-- ΙΣΤΟΡΙΚΟ -->
-        <div class="section" id="section-history">
-            <div class="card">
-                <h2><span class="emoji">📋</span> Πλήρες Ιστορικό</h2>
-                <div class="history-filter">
-                    <input type="date" id="historyDateFilter" title="Φίλτρο ημερομηνίας">
-                </div>
-                <div class="stats-bar" id="historyStats"></div>
-                <div id="historyList"></div>
-            </div>
-        </div>
-
+    <div class="export-bar">
+      <button onclick="exportData()">📥 Εξαγωγή JSON</button>
+      <button class="secondary" onclick="document.getElementById('import-file').click()">📤 Εισαγωγή</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)" />
     </div>
 
-    <!-- MODAL -->
-    <div class="modal-overlay" id="modalOverlay" style="display:none;">
-        <div class="modal-box">
-            <span class="modal-icon">⚠️</span>
-            <div class="modal-text" id="modalText">Επιθυμείτε να το διαγράψετε;</div>
-            <div class="modal-actions">
-                <button class="btn btn-sm btn-ghost" id="modalCancel">❌ Όχι</button>
-                <button class="btn btn-sm btn-danger" id="modalConfirm">🗑️ Ναι, διαγραφή</button>
-            </div>
-        </div>
+    <div class="card">
+      <h2>📋 Καταγραφές</h2>
+      <div id="history-list"></div>
     </div>
+  </div>
+</div>
 
-    <div class="toast" id="toast"></div>
+<!-- Modal επεξεργασίας -->
+<div class="modal" id="edit-modal">
+  <div class="modal-content">
+    <h2 id="edit-title">Επεξεργασία</h2>
+    <div id="edit-fields"></div>
+    <div class="modal-buttons">
+      <button onclick="saveEdit()">💾 Αποθήκευση</button>
+      <button class="secondary" onclick="closeModal()">Ακύρωση</button>
+    </div>
+  </div>
+</div>
 
-    <script>
-    (function() {
-        // ═══════════ DOM REFS ═══════════
-        var $ = function(sel) { return document.querySelector(sel); };
-        var $$ = function(sel) { return document.querySelectorAll(sel); };
+<script>
+  // ---------- Storage ----------
+  const STORAGE_KEY = 'babyTrackerData_v1';
+  let data = { feeds: [], diapers: [], sleeps: [] };
+  let activeDate = ''; // YYYY-MM-DD - η ημέρα που δουλεύουμε
 
-        var selectedDateInput = $('#selectedDate');
-        var toast = $('#toast');
-        var tabBtns = $$('.tab-btn');
-        var sections = $$('.section');
+  function load() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try { data = JSON.parse(raw); } catch(e) { console.error(e); }
+    }
+    if (!data.feeds) data.feeds = [];
+    if (!data.diapers) data.diapers = [];
+    if (!data.sleeps) data.sleeps = [];
+  }
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    renderAll();
+  }
 
-        var feedingForm = $('#feedingForm');
-        var feedingSide = $('#feedingSide');
-        var feedingDuration = $('#feedingDuration');
-        var feedingTime = $('#feedingTime');
-        var feedingList = $('#feedingList');
-        var feedingStats = $('#feedingStats');
+  // ---------- Helpers ----------
+  function nowLocal() {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0,16);
+  }
+  const WEEKDAYS = ['Κυρ','Δευ','Τρι','Τετ','Πεμ','Παρ','Σαβ'];
+  const WEEKDAYS_FULL = ['Κυριακή','Δευτέρα','Τρίτη','Τετάρτη','Πέμπτη','Παρασκευή','Σάββατο'];
+  const MONTHS_FULL = ['Ιανουαρίου','Φεβρουαρίου','Μαρτίου','Απριλίου','Μαΐου','Ιουνίου','Ιουλίου','Αυγούστου','Σεπτεμβρίου','Οκτωβρίου','Νοεμβρίου','Δεκεμβρίου'];
 
-        var peeForm = $('#peeForm');
-        var peeTime = $('#peeTime');
-        var peeList = $('#peeList');
-        var peeStats = $('#peeStats');
+  function pad(n){ return String(n).padStart(2,'0'); }
 
-        var poopForm = $('#poopForm');
-        var poopTime = $('#poopTime');
-        var poopList = $('#poopList');
-        var poopStats = $('#poopStats');
+  function fmtTime(iso) {
+    if (!iso) return '-';
+    const d = new Date(iso);
+    const wd = WEEKDAYS[d.getDay()];
+    return `${wd} ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} · ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  function fmtDateOnly(iso) {
+    if (!iso) return '-';
+    const d = new Date(iso);
+    const today = new Date();
+    const yest = new Date(); yest.setDate(yest.getDate()-1);
+    if (d.toDateString() === today.toDateString()) return 'Σήμερα · ' + WEEKDAYS_FULL[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_FULL[d.getMonth()];
+    if (d.toDateString() === yest.toDateString()) return 'Χθες · ' + WEEKDAYS_FULL[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_FULL[d.getMonth()];
+    return WEEKDAYS_FULL[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_FULL[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  function fmtTimeOnly(iso) {
+    if (!iso) return '-';
+    const d = new Date(iso);
+    return pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function dateKey(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
-        var sleepForm = $('#sleepForm');
-        var sleepStartTime = $('#sleepStartTime');
-        var sleepDuration = $('#sleepDuration');
-        var sleepList = $('#sleepList');
-        var sleepStats = $('#sleepStats');
+  function todayKey() {
+    const t = new Date();
+    return t.getFullYear() + '-' + pad(t.getMonth()+1) + '-' + pad(t.getDate());
+  }
+  // Επιστρέφει datetime-local string για την ενεργή ημέρα + τρέχουσα ώρα
+  function activeDateTimeNow() {
+    const now = new Date();
+    return activeDate + 'T' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+  }
+  function fmtDayLabel(key) {
+    if (!key) return '';
+    const [y,m,d] = key.split('-').map(Number);
+    const dt = new Date(y, m-1, d);
+    const tk = todayKey();
+    const yk = (() => { const x = new Date(); x.setDate(x.getDate()-1); return x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate()); })();
+    if (key === tk) return 'Σήμερα · ' + WEEKDAYS_FULL[dt.getDay()] + ' ' + d + ' ' + MONTHS_FULL[m-1];
+    if (key === yk) return 'Χθες · ' + WEEKDAYS_FULL[dt.getDay()] + ' ' + d + ' ' + MONTHS_FULL[m-1];
+    return WEEKDAYS_FULL[dt.getDay()] + ' ' + d + ' ' + MONTHS_FULL[m-1] + ' ' + y;
+  }
 
-        var historyDateFilter = $('#historyDateFilter');
-        var historyList = $('#historyList');
-        var historyStats = $('#historyStats');
+  function onActiveDateChange() {
+    activeDate = document.getElementById('active-date').value || todayKey();
+    updateActiveDateUI();
+    renderAll();
+  }
+  function setActiveToday() {
+    activeDate = todayKey();
+    document.getElementById('active-date').value = activeDate;
+    updateActiveDateUI();
+    renderAll();
+  }
+  function shiftActiveDate(days) {
+    const [y,m,d] = activeDate.split('-').map(Number);
+    const dt = new Date(y, m-1, d);
+    dt.setDate(dt.getDate() + days);
+    activeDate = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+    document.getElementById('active-date').value = activeDate;
+    updateActiveDateUI();
+    renderAll();
+  }
+  function updateActiveDateUI() {
+    const lbl = fmtDayLabel(activeDate);
+    document.getElementById('active-date-display').textContent = '✨ ' + lbl;
+    document.getElementById('feed-day-info').textContent = '🍼 Προσθήκη για: ' + lbl;
+    document.getElementById('diaper-day-info').textContent = '💩 Προσθήκη για: ' + lbl;
+    document.getElementById('sleep-day-info').textContent = '😴 Προσθήκη για: ' + lbl;
+    document.getElementById('feed-list-title').textContent = '🍼 Θηλασμοί · ' + lbl;
+    document.getElementById('diaper-list-title').textContent = '💩 Πάνες · ' + lbl;
+    document.getElementById('sleep-list-title').textContent = '😴 Ύπνοι · ' + lbl;
+    document.getElementById('stats-title').textContent = '📊 Στατιστικά · ' + lbl;
+    // Ενημέρωση των datetime-local πεδίων με τη νέα ημέρα + τρέχουσα ώρα
+    const dtNow = activeDateTimeNow();
+    document.getElementById('feed-time').value = dtNow;
+    document.getElementById('diaper-time').value = dtNow;
+    document.getElementById('sleep-start').value = dtNow;
+  }
 
-        var modalOverlay = $('#modalOverlay');
-        var modalText = $('#modalText');
-        var modalConfirm = $('#modalConfirm');
-        var modalCancel = $('#modalCancel');
+  // Quick-jump από ιστορικό σε άλλη μέρα + tab
+  function jumpToDay(key, tab) {
+    activeDate = key;
+    document.getElementById('active-date').value = activeDate;
+    updateActiveDateUI();
+    // Switch tab
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelector('.tab[data-tab="'+tab+'"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    document.getElementById('tab-' + tab).style.display = 'block';
+    renderAll();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-        // ═══════════ STORAGE ═══════════
-        var STORAGE_KEY = 'babyTracker';
-        function loadData() {
-            try { var r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {}
-            return { feedings:[], pees:[], poops:[], sleeps:[] };
+  function sideLabel(s) {
+    return { left:'Αριστερό', right:'Δεξί', both:'Και τα δύο' }[s] || s;
+  }
+  function diaperLabel(t) {
+    return { pee:'Τσίσα 💧', poo:'Κακά 💩', both:'Τσίσα + Κακά 💧💩' }[t] || t;
+  }
+  function diaperBadge(t) {
+    if (t==='pee') return '<span class="badge badge-pee">💧 Τσίσα</span>';
+    if (t==='poo') return '<span class="badge badge-poo">💩 Κακά</span>';
+    return '<span class="badge badge-pee">💧</span><span class="badge badge-poo">💩</span>';
+  }
+  function sideBadge(s) {
+    if (s==='left') return '<span class="badge badge-left">⬅️ Αριστερό</span>';
+    if (s==='right') return '<span class="badge badge-right">Δεξί ➡️</span>';
+    return '<span class="badge badge-left">⬅️</span><span class="badge badge-right">➡️</span>';
+  }
+
+  // ---------- Add ----------
+  function addFeed() {
+    const side = document.getElementById('feed-side').value;
+    const time = document.getElementById('feed-time').value || nowLocal();
+    const duration = parseInt(document.getElementById('feed-duration').value) || 0;
+    const notes = document.getElementById('feed-notes').value;
+    data.feeds.push({ id: uid(), side, time, duration, notes });
+    document.getElementById('feed-duration').value = '';
+    document.getElementById('feed-notes').value = '';
+    save();
+  }
+  function addDiaper() {
+    const type = document.getElementById('diaper-type').value;
+    const time = document.getElementById('diaper-time').value || nowLocal();
+    const notes = document.getElementById('diaper-notes').value;
+    data.diapers.push({ id: uid(), type, time, notes });
+    document.getElementById('diaper-notes').value = '';
+    save();
+  }
+  function addSleep() {
+    const start = document.getElementById('sleep-start').value;
+    const end = document.getElementById('sleep-end').value;
+    const notes = document.getElementById('sleep-notes').value;
+    if (!start) { alert('Χρειάζεται ώρα έναρξης'); return; }
+    data.sleeps.push({ id: uid(), start, end, notes });
+    document.getElementById('sleep-notes').value = '';
+    save();
+  }
+
+  // ---------- Delete ----------
+  function delEntry(type, id) {
+    const item = data[type].find(x => x.id === id);
+    if (!item) return;
+    let desc = '';
+    if (type === 'feeds') {
+      const sideMap = { left: 'Αριστερό στήθος', right: 'Δεξί στήθος', both: 'Και τα δύο στήθη' };
+      desc = `🍼 Θηλασμός\n${sideMap[item.side] || ''}${item.duration ? ' · ' + item.duration + ' λεπτά' : ''}\n📅 ${fmtTime(item.time)}`;
+    } else if (type === 'diapers') {
+      const tMap = { pee: '💧 Τσίσα', poo: '💩 Κακά', both: '💧💩 Τσίσα & Κακά' };
+      desc = `Πάνα: ${tMap[item.type] || ''}\n📅 ${fmtTime(item.time)}`;
+    } else if (type === 'sleeps') {
+      desc = `😴 Ύπνος\nΈναρξη: ${fmtTime(item.start)}${item.end ? '\nΛήξη: ' + fmtTime(item.end) : ''}`;
+    }
+    const msg = `Είστε σίγουρος/η ότι θέλετε να διαγράψετε αυτή την καταγραφή;\n\n${desc}\n\n⚠️ Η ενέργεια δεν μπορεί να αναιρεθεί.`;
+    if (!confirm(msg)) return;
+    data[type] = data[type].filter(x => x.id !== id);
+    save();
+  }
+
+  // ---------- Edit ----------
+  let editing = null;
+  function editEntry(type, id) {
+    const item = data[type].find(x => x.id === id);
+    if (!item) return;
+    editing = { type, id };
+    const fields = document.getElementById('edit-fields');
+    let html = '';
+    if (type === 'feeds') {
+      document.getElementById('edit-title').textContent = 'Επεξεργασία θηλασμού';
+      html = `
+        <div class="form-group"><label>Στήθος</label>
+          <select id="e-side">
+            <option value="left" ${item.side==='left'?'selected':''}>Αριστερό</option>
+            <option value="right" ${item.side==='right'?'selected':''}>Δεξί</option>
+            <option value="both" ${item.side==='both'?'selected':''}>Και τα δύο</option>
+          </select></div>
+        <div class="form-group"><label>Ώρα</label><input type="datetime-local" id="e-time" value="${item.time}"/></div>
+        <div class="form-group"><label>Διάρκεια (λεπτά)</label><input type="number" id="e-duration" value="${item.duration||0}"/></div>
+        <div class="form-group"><label>Σημειώσεις</label><input type="text" id="e-notes" value="${item.notes||''}"/></div>
+      `;
+    } else if (type === 'diapers') {
+      document.getElementById('edit-title').textContent = 'Επεξεργασία πάνας';
+      html = `
+        <div class="form-group"><label>Τύπος</label>
+          <select id="e-type">
+            <option value="pee" ${item.type==='pee'?'selected':''}>Τσίσα</option>
+            <option value="poo" ${item.type==='poo'?'selected':''}>Κακά</option>
+            <option value="both" ${item.type==='both'?'selected':''}>Και τα δύο</option>
+          </select></div>
+        <div class="form-group"><label>Ώρα</label><input type="datetime-local" id="e-time" value="${item.time}"/></div>
+        <div class="form-group"><label>Σημειώσεις</label><input type="text" id="e-notes" value="${item.notes||''}"/></div>
+      `;
+    } else if (type === 'sleeps') {
+      document.getElementById('edit-title').textContent = 'Επεξεργασία ύπνου';
+      html = `
+        <div class="form-group"><label>Κοιμήθηκε</label><input type="datetime-local" id="e-start" value="${item.start}"/></div>
+        <div class="form-group"><label>Ξύπνησε</label><input type="datetime-local" id="e-end" value="${item.end||''}"/></div>
+        <div class="form-group"><label>Σημειώσεις</label><input type="text" id="e-notes" value="${item.notes||''}"/></div>
+      `;
+    }
+    fields.innerHTML = html;
+    document.getElementById('edit-modal').classList.add('active');
+  }
+  function saveEdit() {
+    if (!editing) return;
+    const item = data[editing.type].find(x => x.id === editing.id);
+    if (!item) return;
+    if (editing.type === 'feeds') {
+      item.side = document.getElementById('e-side').value;
+      item.time = document.getElementById('e-time').value;
+      item.duration = parseInt(document.getElementById('e-duration').value) || 0;
+      item.notes = document.getElementById('e-notes').value;
+    } else if (editing.type === 'diapers') {
+      item.type = document.getElementById('e-type').value;
+      item.time = document.getElementById('e-time').value;
+      item.notes = document.getElementById('e-notes').value;
+    } else if (editing.type === 'sleeps') {
+      item.start = document.getElementById('e-start').value;
+      item.end = document.getElementById('e-end').value;
+      item.notes = document.getElementById('e-notes').value;
+    }
+    closeModal();
+    save();
+  }
+  function closeModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    editing = null;
+  }
+
+  // ---------- Render ----------
+  function renderFeeds(containerId, items) {
+    const c = document.getElementById(containerId);
+    if (!items.length) { c.innerHTML = '<div class="empty">Καμία καταγραφή ακόμη</div>'; return; }
+    c.innerHTML = items.map(f => `
+      <div class="entry">
+        <div class="entry-info">
+          <div class="entry-title">${sideBadge(f.side)} ${f.duration ? f.duration+' λεπτά' : ''}</div>
+          <div class="entry-detail">🕐 ${fmtTime(f.time)} ${f.notes ? '· '+f.notes : ''}</div>
+        </div>
+        <div class="entry-actions">
+          <button class="edit" onclick="editEntry('feeds','${f.id}')">✏️</button>
+          <button class="danger" onclick="delEntry('feeds','${f.id}')">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  function renderDiapers(containerId, items) {
+    const c = document.getElementById(containerId);
+    if (!items.length) { c.innerHTML = '<div class="empty">Καμία καταγραφή ακόμη</div>'; return; }
+    c.innerHTML = items.map(d => `
+      <div class="entry">
+        <div class="entry-info">
+          <div class="entry-title">${diaperBadge(d.type)}</div>
+          <div class="entry-detail">🕐 ${fmtTime(d.time)} ${d.notes ? '· '+d.notes : ''}</div>
+        </div>
+        <div class="entry-actions">
+          <button class="edit" onclick="editEntry('diapers','${d.id}')">✏️</button>
+          <button class="danger" onclick="delEntry('diapers','${d.id}')">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  function renderSleeps(containerId, items) {
+    const c = document.getElementById(containerId);
+    if (!items.length) { c.innerHTML = '<div class="empty">Καμία καταγραφή ακόμη</div>'; return; }
+    c.innerHTML = items.map(s => {
+      let dur = '';
+      if (s.start && s.end) {
+        const ms = new Date(s.end) - new Date(s.start);
+        const h = Math.floor(ms/3600000);
+        const m = Math.floor((ms%3600000)/60000);
+        dur = `${h}ω ${m}λ`;
+      }
+      return `
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-title"><span class="badge badge-sleep">😴 Ύπνος</span> ${dur}</div>
+            <div class="entry-detail">🛌 ${fmtTime(s.start)} → ⏰ ${fmtTime(s.end)} ${s.notes ? '· '+s.notes : ''}</div>
+          </div>
+          <div class="entry-actions">
+            <button class="edit" onclick="editEntry('sleeps','${s.id}')">✏️</button>
+            <button class="danger" onclick="delEntry('sleeps','${s.id}')">🗑️</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function isToday(iso) {
+    if (!iso) return false;
+    const d = new Date(iso); const t = new Date();
+    return d.toDateString() === t.toDateString();
+  }
+
+  function renderStats() {
+    const dayFeeds = data.feeds.filter(f => dateKey(f.time) === activeDate);
+    const dayDiapers = data.diapers.filter(d => dateKey(d.time) === activeDate);
+    const daySleeps = data.sleeps.filter(s => dateKey(s.start) === activeDate);
+    const totalFeedMin = dayFeeds.reduce((a,b) => a + (b.duration||0), 0);
+    const totalSleepMs = daySleeps.reduce((a,s) => a + (s.start && s.end ? (new Date(s.end)-new Date(s.start)) : 0), 0);
+    const sleepH = Math.floor(totalSleepMs/3600000);
+    const sleepM = Math.floor((totalSleepMs%3600000)/60000);
+    const pees = dayDiapers.filter(d => d.type==='pee'||d.type==='both').length;
+    const poos = dayDiapers.filter(d => d.type==='poo'||d.type==='both').length;
+    document.getElementById('stats').innerHTML = `
+      <div class="stat-box"><div class="stat-num">${dayFeeds.length}</div><div class="stat-label">Θηλασμοί</div></div>
+      <div class="stat-box"><div class="stat-num">${totalFeedMin}'</div><div class="stat-label">Συνολικά λεπτά</div></div>
+      <div class="stat-box"><div class="stat-num">${pees}</div><div class="stat-label">💧 Τσίσα</div></div>
+      <div class="stat-box"><div class="stat-num">${poos}</div><div class="stat-label">💩 Κακά</div></div>
+      <div class="stat-box"><div class="stat-num">${sleepH}ω ${sleepM}λ</div><div class="stat-label">😴 Ύπνος</div></div>
+    `;
+  }
+
+  function setFilterToday() {
+    const t = new Date(); const k = dateKey(t);
+    document.getElementById('filter-from').value = k;
+    document.getElementById('filter-to').value = k;
+    renderHistory();
+  }
+  function setFilterWeek() {
+    const t = new Date(); const from = new Date(); from.setDate(from.getDate()-6);
+    document.getElementById('filter-from').value = dateKey(from);
+    document.getElementById('filter-to').value = dateKey(t);
+    renderHistory();
+  }
+  function setFilterAll() {
+    document.getElementById('filter-from').value = '';
+    document.getElementById('filter-to').value = '';
+    renderHistory();
+  }
+
+  function inRange(iso, from, to) {
+    if (!iso) return false;
+    const k = dateKey(iso);
+    if (from && k < from) return false;
+    if (to && k > to) return false;
+    return true;
+  }
+
+  function renderHistory() {
+    const from = document.getElementById('filter-from')?.value || '';
+    const to = document.getElementById('filter-to')?.value || '';
+    const type = document.getElementById('filter-type')?.value || 'all';
+    const all = [];
+
+    if (type === 'all' || type === 'feeds') {
+      data.feeds.filter(f => inRange(f.time, from, to)).forEach(f => all.push({
+        time: f.time,
+        html: `<div class="entry">
+          <div class="entry-info">
+            <div class="entry-title">🍼 ${sideBadge(f.side)} ${f.duration ? f.duration+' λεπτά' : ''}</div>
+            <div class="entry-detail">⏰ ${fmtTimeOnly(f.time)} ${f.notes ? '· '+f.notes : ''}</div>
+          </div>
+          <div class="entry-actions">
+            <button class="edit" onclick="editEntry('feeds','${f.id}')">✏️</button>
+            <button class="danger" onclick="delEntry('feeds','${f.id}')">🗑️</button>
+          </div></div>`
+      }));
+    }
+    if (type === 'all' || type === 'diapers') {
+      data.diapers.filter(d => inRange(d.time, from, to)).forEach(d => all.push({
+        time: d.time,
+        html: `<div class="entry">
+          <div class="entry-info">
+            <div class="entry-title">${diaperBadge(d.type)}</div>
+            <div class="entry-detail">⏰ ${fmtTimeOnly(d.time)} ${d.notes ? '· '+d.notes : ''}</div>
+          </div>
+          <div class="entry-actions">
+            <button class="edit" onclick="editEntry('diapers','${d.id}')">✏️</button>
+            <button class="danger" onclick="delEntry('diapers','${d.id}')">🗑️</button>
+          </div></div>`
+      }));
+    }
+    if (type === 'all' || type === 'sleeps') {
+      data.sleeps.filter(s => inRange(s.start, from, to)).forEach(s => {
+        let dur = '';
+        if (s.start && s.end) {
+          const ms = new Date(s.end) - new Date(s.start);
+          const h = Math.floor(ms/3600000);
+          const m = Math.floor((ms%3600000)/60000);
+          dur = `${h}ω ${m}λ`;
         }
-        function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
-        function genId() { return Date.now().toString(36) + Math.random().toString(36).substring(2,8); }
-
-        // ═══════════ HELPERS ═══════════
-        function showToast(msg) {
-            toast.textContent = msg; toast.classList.add('show');
-            clearTimeout(toast._t);
-            toast._t = setTimeout(function(){ toast.classList.remove('show'); }, 2000);
-        }
-        function fmtDuration(min) {
-            if (min >= 60) { var h = Math.floor(min/60); var m = min%60; return m>0 ? h+'ω '+m+'λ' : h+'ω'; }
-            return min+' λεπτά';
-        }
-        function fmtDate(iso) {
-            var d = new Date(iso), now = new Date();
-            var y = new Date(now); y.setDate(y.getDate()-1);
-            var t = d.toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
-            if (d.toDateString() === now.toDateString()) return 'Σήμερα, '+t;
-            if (d.toDateString() === y.toDateString()) return 'Χθες, '+t;
-            return d.toLocaleDateString('el-GR',{day:'numeric',month:'short'})+', '+t;
-        }
-        function fmtDateShort(iso) {
-            var d = new Date(iso), now = new Date();
-            if (d.toDateString() === now.toDateString()) return '📅 Σήμερα';
-            var y = new Date(now); y.setDate(y.getDate()-1);
-            if (d.toDateString() === y.toDateString()) return '📅 Χθες';
-            return '📅 '+d.toLocaleDateString('el-GR',{weekday:'long',day:'numeric',month:'short'});
-        }
-        function getSelDate() { return selectedDateInput.value; }
-        function getTodayStr() { return new Date().toISOString().split('T')[0]; }
-        function setNow(el) {
-            var n = new Date();
-            el.value = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
-        }
-        function makeTimestamp(dateStr, timeStr) {
-            var parts = dateStr.split('-').map(Number);
-            var t = timeStr.split(':');
-            return new Date(parts[0], parts[1]-1, parts[2], +t[0], +t[1]).toISOString();
-        }
-
-        // ═══════════ MODAL ═══════════
-        var modalCallback = null;
-        function showModal(msg, cb) {
-            modalText.textContent = msg;
-            modalCallback = cb;
-            modalOverlay.style.display = 'flex';
-        }
-        function hideModal() {
-            modalOverlay.style.display = 'none';
-            modalCallback = null;
-        }
-        modalConfirm.addEventListener('click', function() {
-            if (modalCallback) modalCallback();
-            hideModal();
+        all.push({
+          time: s.start,
+          html: `<div class="entry">
+            <div class="entry-info">
+              <div class="entry-title"><span class="badge badge-sleep">😴 Ύπνος</span> ${dur}</div>
+              <div class="entry-detail">🛌 ${fmtTimeOnly(s.start)} → ⏰ ${fmtTimeOnly(s.end)} ${s.notes ? '· '+s.notes : ''}</div>
+            </div>
+            <div class="entry-actions">
+              <button class="edit" onclick="editEntry('sleeps','${s.id}')">✏️</button>
+              <button class="danger" onclick="delEntry('sleeps','${s.id}')">🗑️</button>
+            </div></div>`
         });
-        modalCancel.addEventListener('click', hideModal);
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === modalOverlay) hideModal();
-        });
+      });
+    }
 
-        // ═══════════ TABS ═══════════
-        tabBtns.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                tabBtns.forEach(function(b){ b.classList.remove('active'); });
-                sections.forEach(function(s){ s.classList.remove('active'); });
-                btn.classList.add('active');
-                $('#section-'+btn.dataset.tab).classList.add('active');
-                if (btn.dataset.tab === 'history') refreshHistory();
-                else refreshAll();
-            });
-        });
+    all.sort((a,b) => new Date(b.time) - new Date(a.time));
 
-        // ═══════════ ΘΗΛΑΣΜΟΣ ═══════════
-        feedingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var data = loadData();
-            data.feedings.push({
-                id: genId(), side: feedingSide.value,
-                duration: +feedingDuration.value,
-                time: makeTimestamp(getSelDate(), feedingTime.value),
-                createdAt: new Date().toISOString()
-            });
-            data.feedings.sort(function(a,b){ return new Date(b.time) - new Date(a.time); });
-            saveData(data);
-            feedingForm.reset(); setNow(feedingTime); feedingDuration.value = 15;
-            showToast('✅ Ο θηλασμός καταγράφηκε!');
-            refreshFeedings();
-        });
+    // Group by date
+    const groups = {};
+    const order = [];
+    all.forEach(item => {
+      const k = dateKey(item.time);
+      if (!groups[k]) { groups[k] = []; order.push(k); }
+      groups[k].push(item);
+    });
 
-        function renderFeedings() {
-            var data = loadData(), feedings = data.feedings, sel = getSelDate();
-            var selF = feedings.filter(function(f){ return f.time.startsWith(sel); });
-            var total = selF.reduce(function(s,f){ return s+f.duration; }, 0);
-            var lc = selF.filter(function(f){ return f.side==='left'; }).length;
-            var rc = selF.filter(function(f){ return f.side==='right'; }).length;
-            feedingStats.innerHTML =
-                '<div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">'+selF.length+'</span> θηλασμοί</div>'+
-                '<div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">'+fmtDuration(total)+'</span></div>'+
-                '<div class="stat-chip">🤱 Αρ: <span class="stat-num">'+lc+'</span> | Δε: <span class="stat-num">'+rc+'</span></div>';
-            if (!feedings.length) {
-                feedingList.innerHTML = '<div class="empty-state"><span class="empty-icon">🍼</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
-                return;
-            }
-            feedingList.innerHTML = feedings.map(function(f){
-                return '<li class="record-item" data-id="'+f.id+'">'+
-                    '<div class="record-info">'+
-                        '<div class="record-main">'+
-                            '<span class="badge '+(f.side==='left'?'badge-left':'badge-right')+'">'+(f.side==='left'?'Αριστερό':'Δεξί')+'</span>'+
-                            ' ⏱️ '+fmtDuration(f.duration)+
-                        '</div>'+
-                        '<div class="record-sub">'+fmtDate(f.time)+'</div>'+
-                    '</div>'+
-                    '<div class="record-actions">'+
-                        '<button class="btn btn-sm btn-edit" data-act="edit-feeding" data-id="'+f.id+'">✏️</button>'+
-                        '<button class="btn btn-sm btn-delete" data-act="del-feeding" data-id="'+f.id+'">🗑️</button>'+
-                    '</div>'+
-                '</li>';
-            }).join('');
-            attachListeners(feedingList);
+    const c = document.getElementById('history-list');
+    if (!all.length) {
+      c.innerHTML = '<div class="empty">Καμία καταγραφή για το επιλεγμένο διάστημα</div>';
+      return;
+    }
+    c.innerHTML = order.map(k => `
+      <div class="day-header">
+        <span>${fmtDateOnly(groups[k][0].time)}</span>
+        <span class="day-header-actions">
+          <button onclick="jumpToDay('${k}','feed')" title="Προσθήκη θηλασμού">+🍼</button>
+          <button onclick="jumpToDay('${k}','diaper')" title="Προσθήκη πάνας">+💩</button>
+          <button onclick="jumpToDay('${k}','sleep')" title="Προσθήκη ύπνου">+😴</button>
+          <span class="day-count">${groups[k].length}</span>
+        </span>
+      </div>
+      ${groups[k].map(x => x.html).join('')}
+    `).join('');
+  }
+
+  function renderAll() {
+    const sortByTime = (a,b) => new Date(b.time||b.start) - new Date(a.time||a.start);
+    // Φιλτράρισμα ανά ενεργή ημέρα
+    const feedsForDay = data.feeds.filter(f => dateKey(f.time) === activeDate).sort(sortByTime);
+    const diapersForDay = data.diapers.filter(d => dateKey(d.time) === activeDate).sort(sortByTime);
+    const sleepsForDay = data.sleeps.filter(s => dateKey(s.start) === activeDate).sort((a,b)=> new Date(b.start)-new Date(a.start));
+    renderFeeds('feed-list', feedsForDay);
+    renderDiapers('diaper-list', diapersForDay);
+    renderSleeps('sleep-list', sleepsForDay);
+    renderStats();
+    renderHistory();
+  }
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      document.getElementById('tab-' + t.dataset.tab).style.display = 'block';
+    });
+  });
+
+  // ---------- Export / Import / Clear ----------
+  function exportData() {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `baby-tracker-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  function importData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (confirm('Αντικατάσταση τρεχόντων δεδομένων;')) {
+          data = imported;
+          save();
         }
+      } catch(err) { alert('Λάθος αρχείο'); }
+    };
+    reader.readAsText(file);
+  }
 
-        // ═══════════ ΤΣΙΣΑ ═══════════
-        peeForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var data = loadData();
-            data.pees.push({
-                id: genId(),
-                time: makeTimestamp(getSelDate(), peeTime.value),
-                createdAt: new Date().toISOString()
-            });
-            data.pees.sort(function(a,b){ return new Date(b.time) - new Date(a.time); });
-            saveData(data); peeForm.reset(); setNow(peeTime);
-            showToast('💧 Τσίσα καταγράφηκε!'); refreshPees();
-        });
 
-        function renderPees() {
-            var data = loadData(), pees = data.pees, sel = getSelDate();
-            var selP = pees.filter(function(p){ return p.time.startsWith(sel); });
-            peeStats.innerHTML =
-                '<div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">'+selP.length+'</span> τσίσες</div>'+
-                '<div class="stat-chip">📊 Σύνολο: <span class="stat-num">'+pees.length+'</span> καταχωρήσεις</div>';
-            if (!pees.length) {
-                peeList.innerHTML = '<div class="empty-state"><span class="empty-icon">💧</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
-                return;
-            }
-            peeList.innerHTML = pees.map(function(p){
-                return '<li class="record-item" data-id="'+p.id+'">'+
-                    '<div class="record-info">'+
-                        '<div class="record-main"><span class="badge badge-pee">💧 Τσίσα</span></div>'+
-                        '<div class="record-sub">'+fmtDate(p.time)+'</div>'+
-                    '</div>'+
-                    '<div class="record-actions">'+
-                        '<button class="btn btn-sm btn-edit" data-act="edit-pee" data-id="'+p.id+'">✏️</button>'+
-                        '<button class="btn btn-sm btn-delete" data-act="del-pee" data-id="'+p.id+'">🗑️</button>'+
-                    '</div>'+
-                '</li>';
-            }).join('');
-            attachListeners(peeList);
-        }
-
-        // ═══════════ ΚΑΚΑ ═══════════
-        poopForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var data = loadData();
-            data.poops.push({
-                id: genId(),
-                time: makeTimestamp(getSelDate(), poopTime.value),
-                createdAt: new Date().toISOString()
-            });
-            data.poops.sort(function(a,b){ return new Date(b.time) - new Date(a.time); });
-            saveData(data); poopForm.reset(); setNow(poopTime);
-            showToast('💩 Κακά καταγράφηκε!'); refreshPoops();
-        });
-
-        function renderPoops() {
-            var data = loadData(), poops = data.poops, sel = getSelDate();
-            var selP = poops.filter(function(p){ return p.time.startsWith(sel); });
-            poopStats.innerHTML =
-                '<div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">'+selP.length+'</span> κακά</div>'+
-                '<div class="stat-chip">📊 Σύνολο: <span class="stat-num">'+poops.length+'</span> καταχωρήσεις</div>';
-            if (!poops.length) {
-                poopList.innerHTML = '<div class="empty-state"><span class="empty-icon">💩</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
-                return;
-            }
-            poopList.innerHTML = poops.map(function(p){
-                return '<li class="record-item" data-id="'+p.id+'">'+
-                    '<div class="record-info">'+
-                        '<div class="record-main"><span class="badge badge-poop">💩 Κακά</span></div>'+
-                        '<div class="record-sub">'+fmtDate(p.time)+'</div>'+
-                    '</div>'+
-                    '<div class="record-actions">'+
-                        '<button class="btn btn-sm btn-edit" data-act="edit-poop" data-id="'+p.id+'">✏️</button>'+
-                        '<button class="btn btn-sm btn-delete" data-act="del-poop" data-id="'+p.id+'">🗑️</button>'+
-                    '</div>'+
-                '</li>';
-            }).join('');
-            attachListeners(poopList);
-        }
-
-        // ═══════════ ΥΠΝΟΣ ═══════════
-        sleepForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var data = loadData();
-            data.sleeps.push({
-                id: genId(),
-                startTime: makeTimestamp(getSelDate(), sleepStartTime.value),
-                duration: +sleepDuration.value,
-                createdAt: new Date().toISOString()
-            });
-            data.sleeps.sort(function(a,b){ return new Date(b.startTime) - new Date(a.startTime); });
-            saveData(data); sleepForm.reset(); setNow(sleepStartTime); sleepDuration.value = 60;
-            showToast('😴 Ύπνος καταγράφηκε!'); refreshSleeps();
-        });
-
-        function renderSleeps() {
-            var data = loadData(), sleeps = data.sleeps, sel = getSelDate();
-            var selS = sleeps.filter(function(s){ return s.startTime.startsWith(sel); });
-            var total = selS.reduce(function(s,sl){ return s+sl.duration; }, 0);
-            sleepStats.innerHTML =
-                '<div class="stat-chip">📅 Επιλεγμένη: <span class="stat-num">'+selS.length+'</span> ύπνοι</div>'+
-                '<div class="stat-chip">⏱️ Σύνολο: <span class="stat-num">'+fmtDuration(total)+'</span></div>';
-            if (!sleeps.length) {
-                sleepList.innerHTML = '<div class="empty-state"><span class="empty-icon">😴</span><p>Δεν υπάρχουν καταχωρήσεις</p></div>';
-                return;
-            }
-            sleepList.innerHTML = sleeps.map(function(s){
-                var sd = new Date(s.startTime);
-                var ed = new Date(sd.getTime() + s.duration*60000);
-                var et = ed.toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
-                return '<li class="record-item" data-id="'+s.id+'">'+
-                    '<div class="record-info">'+
-                        '<div class="record-main">'+
-                            '<span class="badge badge-sleep">😴 Ύπνος</span> ⏱️ '+fmtDuration(s.duration)+
-                        '</div>'+
-                        '<div class="record-sub">'+fmtDate(s.startTime)+' → '+et+'</div>'+
-                    '</div>'+
-                    '<div class="record-actions">'+
-                        '<button class="btn btn-sm btn-edit" data-act="edit-sleep" data-id="'+s.id+'">✏️</button>'+
-                        '<button class="btn btn-sm btn-delete" data-act="del-sleep" data-id="'+s.id+'">🗑️</button>'+
-                    '</div>'+
-                '</li>';
-            }).join('');
-            attachListeners(sleepList);
-        }
-
-        // ═══════════ ATTACH EVENT LISTENERS ═══════════
-        function attachListeners(container) {
-            container.querySelectorAll('[data-act]').forEach(function(btn){
-                btn.addEventListener('click', function(){
-                    var act = this.dataset.act;
-                    var id = this.dataset.id;
-                    if (act.startsWith('edit-')) openEdit(act.replace('edit-',''), id);
-                    if (act.startsWith('del-')) confirmDelete(act.replace('del-',''), id);
-                    if (act.startsWith('save-')) saveEdit(act.replace('save-',''), id);
-                    if (act.startsWith('cancel-')) cancelEdit(act.replace('cancel-',''));
-                });
-            });
-        }
-
-        // ═══════════ EDIT ═══════════
-        function openEdit(type, id) {
-            var data = loadData();
-            var item, listEl;
-            if (type === 'feeding') { item = data.feedings.find(function(f){ return f.id===id; }); listEl = feedingList; }
-            else if (type === 'pee') { item = data.pees.find(function(p){ return p.id===id; }); listEl = peeList; }
-            else if (type === 'poop') { item = data.poops.find(function(p){ return p.id===id; }); listEl = poopList; }
-            else if (type === 'sleep') { item = data.sleeps.find(function(s){ return s.id===id; }); listEl = sleepList; }
-            if (!item) return;
-
-            var timeField = type==='sleep' ?
+  // ---------- Init ----------
+  load();
+  // Ενεργή ημέρα = σήμερα
+  activeDate = todayKey();
+  document.getElementById('active-date').value = activeDate;
+  updateActiveDateUI();
+  // Default filter ιστορικού: τελευταίες 7 ημέρες
+  const _today = new Date();
+  const _weekAgo = new Date(); _weekAgo.setDate(_weekAgo.getDate()-6);
+  document.getElementById('filter-from').value = dateKey(_weekAgo);
+  document.getElementById('filter-to').value = dateKey(_today);
+  renderAll();
+</script>
+</body>
+</html>
